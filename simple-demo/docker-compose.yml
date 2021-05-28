@@ -1,0 +1,249 @@
+version: "3.7"
+
+networks:
+  edgex-network:
+    driver: bridge
+
+volumes:
+  db-data:
+  nodered-data:
+  license-data:
+
+# all common shared environment variables defined here:
+x-common-env-variables: &common-variables
+  EDGEX_SECURITY_SECRET_STORE: "false"
+  Clients_Data_Host: edgex-core-data
+  Clients_CoreData_Host: edgex-core-data
+  Clients_Metadata_Host: edgex-core-metadata
+  Clients_Command_Host: edgex-core-command
+  Clients_VirtualDevice_Host: device-virtual
+  Databases_Primary_Host: edgex-redis
+  # license
+  EDGEXPERT_LICENSE_PATH: /edgexpert/licenses/
+
+services:
+
+  #################################################################
+  # Database Services
+  #################################################################
+
+  redis:
+    image: redis:6.2.3
+    container_name: redis
+    hostname: redis
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-redis
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - db-data:/data:z
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  #################################################################
+  # Core Services
+  #################################################################
+
+  core-metadata:
+    image: iotechsys/edgexpert-core-metadata:1.8
+    container_name: core-metadata
+    hostname: core-metadata
+    command: "--confdir=/res"
+    ports:
+      - "48081:48081"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-metadata
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-metadata
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+
+  core-data:
+    image: iotechsys/edgexpert-core-data:1.8
+    container_name: core-data
+    hostname: core-data
+    command: "--confdir=/res"
+    ports:
+      - "48080:48080"
+      - "5563:5563"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-data
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+      - core-metadata
+
+  core-command:
+    image: iotechsys/edgexpert-core-command:1.8
+    container_name: core-command
+    hostname: core-command
+    command: "--confdir=/res"
+    ports:
+      - "48082:48082"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-command
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-command
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+      - core-metadata
+
+  #################################################################
+  # Device Services
+  #################################################################
+
+  device-virtual:
+    image: iotechsys/edgexpert-device-virtual:1.8
+    container_name: device-virtual
+    hostname: device-virtual
+    command: "--confdir=/res"
+    ports:
+      - "49990:49990"
+    networks:
+      edgex-network:
+        aliases:
+          - device-virtual
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: device-virtual
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-data
+      - core-metadata
+
+  #################################################################
+  # App Services
+  #################################################################
+
+  app-service-mqtt-export:
+    image: iotechsys/edgexpert-app-configurable:1.8
+    container_name: app-service-mqtt-export
+    hostname: app-service-mqtt-export
+    networks:
+      edgex-network:
+        aliases:
+          - app-service-mqtt-export
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: app-service-mqtt-export
+      Database_Host: edgex-redis
+      MessageBus_SubscribeHost_Host: edgex-core-data
+      # pipeline overrides
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_BROKERADDRESS: tcp://broker.hivemq.com:1883
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_TOPIC: iotech_topic
+      WRITABLE_PIPELINE_FUNCTIONS_MQTTSECRETSEND_PARAMETERS_CLIENTID: iotech
+    command: "--confdir=/res --profile=mqtt-export"
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-data
+
+  #################################################################
+  # EdgeXpert License
+  #################################################################
+
+  edgexpert-license:
+    image: iotechsys/sys-mgmt-demo-license-prov:nova-demo
+    container_name: edgexpert-license
+    hostname: edgexpert-license
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+    volumes:
+      - license-data:/lic:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  #################################################################
+  # Metadata Setup
+  #################################################################
+
+  metadata-setup:
+    image: iotechsys/edgexpert-demo-lua:metadata-setup-x86_64
+    container_name: metadata-setup
+    hostname: metadata-setup
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      edgex-network:
+        aliases:
+          - metadata-setup
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - core-metadata
