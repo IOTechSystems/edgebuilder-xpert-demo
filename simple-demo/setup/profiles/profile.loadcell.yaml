@@ -1,0 +1,57 @@
+name: "Simulated-LoadCell-Device"
+manufacturer: "IOTech"
+model: "Device-Virtual-Float"
+labels:
+- "nova"
+description: "Simulated LoadCell Device for NOVA"
+
+deviceResources:
+-
+  name: "EnableRandomization_ShelfWeight"
+  description: "used to decide whether to re-generate a random value"
+  properties:
+    value:
+      { type: "Bool", readWrite: "W", defaultValue: "false" }
+    units:
+      { type: "String", readWrite: "R", defaultValue: "Random" }
+-
+  name: "ShelfWeight"
+  description: "shelf weight in float32 value"
+  properties:
+    value:
+      { type: "Float32", readWrite: "RW", minimum: "0e0", maximum: "1.20055e3", defaultValue: "1.20055e3", floatEncoding: "eNotation" }
+    units:
+      { type: "String", readWrite: "R", defaultValue: "gram" }
+
+deviceCommands:
+-
+  name: "ShelfWeight"
+  get:
+    - { operation: "get", deviceResource: "ShelfWeight" }
+  set:
+    - { operation: "set", deviceResource: "ShelfWeight" }
+
+coreCommands:
+-
+  name: "ShelfWeight"
+  get:
+    path: "/api/v1/device/{deviceId}/ShelfWeight"
+    responses:
+      -
+        code: "200"
+        description: ""
+        expectedValues: ["ShelfWeight"]
+      -
+        code: "503"
+        description: "service unavailable"
+        expectedValues: []
+  put:
+    path: "/api/v1/device/{deviceId}/ShelfWeight"
+    parameterNames: ["ShelfWeight"]
+    responses:
+      -
+        code: "200"
+        description: ""
+      -
+        code: "503"
+        description: "service unavailable"

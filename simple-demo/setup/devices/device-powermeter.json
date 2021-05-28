@@ -1,0 +1,29 @@
+{
+  "name": "Powermeter-Device",
+  "description": "Nova Simulated Powermeter Device",
+  "adminState": "UNLOCKED",
+  "operatingState": "ENABLED",
+  "protocols": {
+    "other": {
+      "Address": "device-virtual-uint-01",
+      "Protocol": "300"
+    }
+  },
+  "labels": [
+    "nova"
+  ],
+  "service":{
+    "name":"device-virtual",
+    "adminState": "unlocked",
+    "operatingState": "enabled"
+  },
+  "profile":{
+    "name":"Simulated-Powermeter-Device"
+  },
+  "autoEvents": [
+    {
+      "frequency": "30s",
+      "resource": "FridgePower"
+    }
+  ]
+}
