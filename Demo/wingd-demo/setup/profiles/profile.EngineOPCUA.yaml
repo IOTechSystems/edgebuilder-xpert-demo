@@ -1,0 +1,44 @@
+# Copyright 2020 IOTech Systems. All rights reserved.
+name: "Engine OPC UA"
+manufacturer: "IOTech Systems"
+labels: [ 'OPC UA', 'Pressure' ]
+description: "Engine Statistics"
+
+deviceResources:
+      - name: "PR0001"
+        attributes:
+          { nodeID: "1003", nsIndex: "3", IDType: "NUMERIC", monitored: "True" }
+        properties:
+            value:
+                { type: "Float64", readWrite: "RW", defaultValue: "0" }
+            units:
+                { type: "String", readWrite: "R", defaultValue: "String" }
+
+deviceCommands:
+  - name: "PR0001"
+    get:
+    - { index: "1", operation: "get", deviceResource: "PR0001" }
+    set:
+    - { index: "1", operation: "set", deviceResource: "PR0001" }
+
+coreCommands:
+  - name: "PR0001"
+    get:
+      path: "/api/v1/device/{deviceId}/PR0001"
+      responses:
+      - code: "200"
+        description: "Get the PR0001 value."
+        expectedValues: ["PR0001"]
+      - code: "503"
+        description: "service unavailable"
+        expectedValues: []
+    put:
+      path: "/api/v1/device/{deviceId}/PR0001"
+      parameterNames: ["PR0001"]
+      responses:
+      - code: "200"
+        description: "Successfully set the PR0001 value."
+        expectedValues: []
+      - code: "503"
+        description: "service unavailable"
+        expectedValues: []
