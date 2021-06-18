@@ -1,0 +1,444 @@
+version: "3.7"
+
+networks:
+  edgex-network:
+    driver: bridge
+
+volumes:
+  db-data:
+  nodered-data:
+  license-data:
+  export-data:  
+  grafana-data:
+
+# all common shared environment variables defined here:
+x-common-env-variables: &common-variables
+  EDGEX_SECURITY_SECRET_STORE: "false"
+  Clients_Data_Host: edgex-core-data
+  Clients_CoreData_Host: edgex-core-data
+  Clients_Metadata_Host: edgex-core-metadata
+  Clients_Command_Host: edgex-core-command
+  Databases_Primary_Host: edgex-redis
+  # license
+  EDGEXPERT_LICENSE_PATH: /edgexpert/licenses/
+
+services:
+
+  #################################################################
+  # Database Services
+  #################################################################
+
+  redis:
+    image: redis:6.2.3
+    container_name: redis
+    hostname: redis
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-redis
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - db-data:/data:z
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  #################################################################
+  # Core Services
+  #################################################################
+
+  core-metadata:
+    image: iotechsys/edgexpert-core-metadata:1.8
+    container_name: core-metadata
+    hostname: core-metadata
+    command: "--confdir=/res"
+    ports:
+      - "48081:48081"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-metadata
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-metadata
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+
+  core-data:
+    image: iotechsys/edgexpert-core-data:1.8
+    container_name: core-data
+    hostname: core-data
+    command: "--confdir=/res"
+    ports:
+      - "48080:48080"
+      - "5563:5563"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-data
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-data
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+      - core-metadata
+
+  core-command:
+    image: iotechsys/edgexpert-core-command:1.8
+    container_name: core-command
+    hostname: core-command
+    command: "--confdir=/res"
+    ports:
+      - "48082:48082"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-core-command
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: core-command
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - redis
+      - core-metadata
+
+  #################################################################
+  # Device Services
+  #################################################################
+
+  device-modbus-c:
+    image: iotechsys/edgexpert-device-modbus-c:1.8
+    container_name: device-modbus
+    hostname: device-modbus
+    entrypoint: /modbus
+    networks:
+      - edgex-network
+    ports:
+      - "49991:49991"
+    environment:
+      <<: *common-variables
+      Service_Host: device-modbus
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-metadata
+      - core-data
+      - core-command
+
+  device-opc-ua:
+    image: iotechsys/edgexpert-device-opc-ua:1.8
+    container_name: device-opc-ua
+    hostname: device-opc-ua
+    networks:
+      - edgex-network
+    ports:
+      - "49983:49983"
+    environment:
+      <<: *common-variables
+      Service_Host: device-opc-ua
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-metadata
+      - core-data
+      - core-command
+
+ #################################################################
+  # Export Services
+  #################################################################
+
+  export-client:
+    image: iotechsys/edgexpert-export-client:1.8
+    container_name: export-client
+    hostname: export-client
+    command: "--confdir=/res"
+    ports:
+      - "48071:48071"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-export-client
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: export-client
+      Clients_Distro_Host: export-distro
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-data
+
+  export-distro:
+    image: iotechsys/edgexpert-export-distro:1.8
+    container_name: export-distro
+    hostname: export-distro
+    command: "--confdir=/res"
+    ports:
+      - "48070:48070"
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-export-distro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: export-distro
+      Clients_Export_Host: export-client
+      MessageQueue_Host: core-data
+      Certificates_MQTTS_Cert: "dummy.crt"
+      Certificates_MQTTS_Key: "dummy.key"
+      Certificates_AWS_Cert: "dummy.crt"
+      Certificates_AWS_Key: "dummy.key"
+    volumes:
+      - export-data:/export/keys
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - export-client
+
+  #################################################################
+  # App Services
+  #################################################################
+
+  app-service-awsiotcore-mqtt-export:
+    image: iotechsys/edgexpert-app-configurable:1.8.5.dev # The configuration-insecure-shadow.toml is added in this version
+    container_name: app-service-awsiotcore-mqtt-export
+    hostname: app-service-awsiotcore-mqtt-export
+    networks:
+      edgex-network:
+        aliases:
+          - app-service-awsiotcore-mqtt-export
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+      Service_Host: app-service-awsiotcore-mqtt-export
+      Database_Host: edgex-redis
+      MessageBus_SubscribeHost_Host: edgex-core-data
+      # pipeline overrides
+      WRITABLE_LOGLEVEL: DEBUG
+      WRITABLE_PIPELINE_EXECUTIONORDER: TransformToAWSDeviceShadow,AWSIoTCoreMQTTSend
+      WRITABLE_PIPELINE_FUNCTIONS_AWSIOTCOREMQTTSEND_PARAMETERS_AWSIOTMQTTBROKERADDRESS: tls://a3c7j8e9mj0ng3-ats.iot.us-east-2.amazonaws.com:8883
+      WRITABLE_PIPELINE_FUNCTIONS_AWSIOTCOREMQTTSEND_PARAMETERS_AWSIOTMQTTTOPIC: "$$aws/things/Engine/shadow/update"
+      WRITABLE_PIPELINE_FUNCTIONS_AWSIOTCOREMQTTSEND_PARAMETERS_AWSIOTTHINGNAME: Engine
+      WRITABLE_INSECURESECRETS_AWS_SECRETS_CLIENTCERT: |
+        -----BEGIN CERTIFICATE-----
+        MIIDWjCCAkKgAwIBAgIVAOenxhEfKfjaCS7m/4SPR3o8fGzLMA0GCSqGSIb3DQEB
+        CwUAME0xSzBJBgNVBAsMQkFtYXpvbiBXZWIgU2VydmljZXMgTz1BbWF6b24uY29t
+        IEluYy4gTD1TZWF0dGxlIFNUPVdhc2hpbmd0b24gQz1VUzAeFw0xODA5MDUxMDEx
+        MDNaFw00OTEyMzEyMzU5NTlaMB4xHDAaBgNVBAMME0FXUyBJb1QgQ2VydGlmaWNh
+        dGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9Rl/+RPF6sXriih4A
+        UZlHYGhsJ33NKFjZOUEuhrAvWuNqgY+bbFBsFob3PefjiRW0q5Cy1dUuMMYG+tHL
+        36gwwBHVA0FSse9QaVTkmEU3wMR+nV7fsPxayC60L6OGojUhwjuYCvKeYIqMh6yz
+        9/r4yg/iZCkByrdQezyYEJutogOgzE28lqfW2M2Z1DeM/F+xnuBea5a3I7jS5XLR
+        0M56Bsm7OPyn3nXhcZxXtgH2wCvV0VS+jOf/UoADnf5qEChDJjbSRZ+SuX8++CS1
+        E78I3K2iExXdRy+O/4vO/qqPt5S/7XTUK2XZSq6dNCEWEtWTSxpWfgxOs1UhPOLu
+        A1m1AgMBAAGjYDBeMB8GA1UdIwQYMBaAFJqv/Wr8RhJGPIa2jwKOQ2lBOUTIMB0G
+        A1UdDgQWBBTos8Qqr3mNFfi7r8iYOAtcCsdiNDAMBgNVHRMBAf8EAjAAMA4GA1Ud
+        DwEB/wQEAwIHgDANBgkqhkiG9w0BAQsFAAOCAQEAsqevUd62nrbiA08OhdM7mCoK
+        p2KDoqf0NWp1+dGPXWg1R5VgHpxCKwTZP1uxeMkCISjkSb8lxaUL3otIF0z6QShI
+        tV90CuTOGBljBilTMZAiCSa/FGr3/5wIxve4eEIcrpg/rYVuVaieFw5z4aB9oIxm
+        W8YBq/NFfstxYLD2BbLW5kvYhHzDZh9mV0Yde7Tyst6wyosLCXz4JsYNMtwOGPh2
+        y5xJ1tXyne12e7UIvfhg8S4OBG0e6E+aELvsnT56XGNgv5xGtiPFW6rE1/utoTRw
+        HNe+x2PkeEDmvAdOGGKsrholXw2ygFbK9zsvEhpV0mRB6WWrjsLlGW4/kO4vHg==
+        -----END CERTIFICATE-----
+      WRITABLE_INSECURESECRETS_AWS_SECRETS_CLIENTKEY: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAvUZf/kTxerF64ooeAFGZR2BobCd9zShY2TlBLoawL1rjaoGP
+        m2xQbBaG9z3n44kVtKuQstXVLjDGBvrRy9+oMMAR1QNBUrHvUGlU5JhFN8DEfp1e
+        37D8WsgutC+jhqI1IcI7mArynmCKjIess/f6+MoP4mQpAcq3UHs8mBCbraIDoMxN
+        vJan1tjNmdQ3jPxfsZ7gXmuWtyO40uVy0dDOegbJuzj8p9514XGcV7YB9sAr1dFU
+        vozn/1KAA53+ahAoQyY20kWfkrl/PvgktRO/CNytohMV3Ucvjv+Lzv6qj7eUv+10
+        1Ctl2UqunTQhFhLVk0saVn4MTrNVITzi7gNZtQIDAQABAoIBAH6NTmOpXzgk8MAF
+        jzexV2YU/NzLrt58iqN7F6zvG2AeSg4NYKKP0lni2gz31FMbdmrdh5s7RBVlQRKr
+        o5jICyHFWmbtjUCofhVqx/ssIKO9fOQXfrbcFG7yh9+sNo8vZ40R3Fy1fTEN5bU+
+        heey95hfKi25wH1VOCpUq9gUyrJViD50dwrODGtqwz/iv9u+jsSXGO6Vs9xGdWIG
+        BE4zhlP1m4ORHYXlXZ6plB5GH/30W31aWjR6HISl6NBNW+LWDwz2rvp39s6Ljo51
+        6wQELAQxvznO9HcZaWU44Gj/0+nap5UE1wTgVKkc6x1xA0O18bTHsf6ij8yz3OE1
+        jstftOECgYEA9RM8Lg3YN4/c+wI61333GYr8e3a1k2tGVlF8RJlsUvQ5bRa0h3C9
+        hcurNUJ5t9CfJjSTMdat1hYPWstbmefSbEf0HIs/KKcbZzFcfTCHdRXejMeC/13z
+        3CiL5la8xruoNPJdXjhgrt1jKk4rsCEGQyZ4Y+U336MgxoKM+FcjG9kCgYEAxbZa
+        4vf+OPpeKSWKpIVMtaqO5UinKksTADObldMo3A/7jbLeORTUZV4Kw4H1K7pihDb9
+        xPhDRRKm4YfXSsLPQ7gX9YXvPvdtqtC5OZFS5o2vKZomwEuQbrV3UsGj2ku0jfDb
+        6gi8RQprO+vsxjPdBo1qGnEVe6HM6V3XhU2kDz0CgYBnouS2DQC8LkgilYTQj+Io
+        mQ/AHikW2Cx8YCUO1Vprkf+e1BUvmUtsAv65nQzf4IcMnvsH/mKwv89qc8iewtvH
+        En52e6QPyurZrpQQFK+TodXk7pHE77QqC7Ntiox19fFhwoQdTfYEvHYs87Wh27VM
+        PD547/u6xL8dcyOt+RtNsQKBgQCRerfvsGkIxflJL42Pt2IVfpW80rPmY+1sRY0j
+        NognPT9tKYNo3xHWMNecumCLt47MGKasK71b8viGlOzu3t+hxbEjgVTksS2p9gGF
+        AZDNgs2zv/Dpp/Bz9eUCKOgHNZN6qhM3ZwwZhSwYoGXOBdWJ/75mDHWxTgI4aUuv
+        k8y3RQKBgCnZFBeiwb3uytPCciOBL+71zS4yOhCGq0/OAaTskLKlVBH9gdEwVwad
+        O6JzfnAzlOer9QcPQdB0qb4UWcN/gaWYSnbJ7ULslmnyctgAJ5lvOUzc7xqJ2iQ2
+        drzATomgR+90AiSy85mzKZCZ1cPf6hs8vOl+r3bRWbrMxBiEL9Sv
+        -----END RSA PRIVATE KEY-----
+    command: "--confdir=/res --profile=awsiotcore-mqtt-export --file=configuration-insecure-shadow.toml"
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - edgexpert-license
+      - core-data
+
+  #################################################################
+  # Tools
+  #################################################################
+
+  influxdb:
+    image: influxdb:1.7.11
+    container_name: influxdb17
+    hostname: influxdb17
+    networks:
+      edgex-network:
+        aliases:
+          - influxdb
+    environment:
+      INFLUXDB_HTTP_AUTH_ENABLED: "true"
+      INFLUXDB_ADMIN_USER: admin
+      INFLUXDB_ADMIN_PASSWORD: admin
+      INFLUXDB_DB: edgex
+      INFLUXDB_WRITE_USER: core
+      INFLUXDB_WRITE_USER_PASSWORD: password
+    depends_on:
+      - export-distro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  grafana:
+    image: iotechsys/edgexpert-grafana:5.2.2
+    container_name: grafana
+    hostname: edgex-grafana
+    networks:
+      edgex-network:
+        aliases:
+          - edgex-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: volume
+        source: grafana-data
+        target: /var/lib/grafana
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  #################################################################
+  # EdgeXpert License
+  #################################################################
+
+  edgexpert-license:
+    image: iotechsys/sys-mgmt-demo-license-prov:nova-demo
+    container_name: edgexpert-license
+    hostname: edgexpert-license
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      <<: *common-variables
+    volumes:
+      - license-data:/lic:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+
+  #################################################################
+  # Service Setup (Metadata, Export-Client, Grafana)
+  #################################################################
+
+  service-setup:
+    image: iotechsys/edgexpert-demo-lua:wingd-demo-x86_64
+    container_name: service-setup
+    hostname: service-setup
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      edgex-network:
+        aliases:
+          - service-setup
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - core-metadata
+      - export-client
+      - export-distro
+      - influxdb
+      - grafana
+
+

@@ -1,0 +1,9 @@
+{
+  "AppDefinitionConfig": [
+    {
+      "Name": "wingd-demo",
+      "Description": "A simple winGD demo",
+      "ComposeFile": "/home/master/wingd-demo/docker-compose.yml"
+    }
+  ]
+}
