@@ -1,4 +1,4 @@
-# WinGD Demo Tutorial: Set up Edge Xpert Ship Monitoring Demo through Edge Builder
+# Edge Xpert Ship Monitoring Demo with Edge Builder
 ## Overview
 This demo provides a pair of appDefinition file **app-def-config.json** and corresponding docker-compose file **docker-compose.yml** to deploy EdgeXpert services by Edge Builder and automatically set up Ship Engine Monitoring configs.
 
@@ -9,7 +9,7 @@ To set up the device-modbus(temperature & power) and device-opc-ua(pressure) ser
 Core-Metadata service for provisioning. The container will also add InfluxDB registration to export-client, and InfluxDB datasource and a default dashboard to Grafana. This special container--**service-setup**--is part of docker-compose file, and it will be 
 automatically started up when being deployed by Edge Builder.    
 
-![image](images/overview-wingd-demo.png)
+![image](images/overview-shipMonitoring-demo.png)
 
 
 ### The service-setup container
@@ -39,11 +39,11 @@ In this example, **setup.sh** will issue several REST calls to set up the demo:
 * issue **Grafana POST /api/dashboards/db** to add dashboards
 
 #### The docker image of service-setup
-Pull the image **iotechsys/edgexpert-demo-lua:wingd-demo-x86_64** from DockerHub or use the command below to build the image.
+Pull the image **iotechsys/edgexpert-demo-lua:shipMonitoring-demo-x86_64** from DockerHub or use the command below to build the image.
 ```shell
 # ./build.sh <push_or_not> <image tag name> 
 cd path-to-setup
-./build.sh true wingd-demo
+./build.sh true shipMonitoring-demo
 ```
 
 ## Prerequisite
@@ -93,9 +93,9 @@ The **app-def-config.json** file defines the app name and the path of the corres
 {
   "AppDefinitionConfig": [
     {
-      "Name": "wingd-demo",
-      "Description": "A simple winGD demo",
-      "ComposeFile": "/home/master/wingd-demo/docker-compose.yml"
+      "Name": "shipMonitoring-demo",
+      "Description": "A simple ship monitoring demo",
+      "ComposeFile": "/home/master/shipMonitoring-demo/docker-compose.yml"
     }
   ]
 }
@@ -108,7 +108,7 @@ sudo edgebuilder-cli appDefinition add -f <path-to-app-def-config.json>
 Run the command to create app:
 ```shell
 # edgebuilder-cli app create -d <appDefinition name> -n <node name>
-sudo edgebuilder-cli app create -d wingd-demo -n node1
+sudo edgebuilder-cli app create -d shipMonitoring-demo -n node1
 ```
 Run the command to start app:
 ```shell
@@ -133,7 +133,7 @@ sudo edgebuilder-cli app rm -a <app name or app id>
 Run the command to remove appDefinition:
 ```shell
 # edgebuilder-cli appDefinition rm -d <appDefinition name or appDefinition id>
-sudo edgebuilder-cli appDefinition rm -d wingd-demo
+sudo edgebuilder-cli appDefinition rm -d shipMonitoring-demo
 ```
 Run the command to remove node:
 ```shell

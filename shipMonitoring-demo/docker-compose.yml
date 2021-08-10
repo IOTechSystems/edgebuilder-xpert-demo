@@ -419,7 +419,7 @@ services:
   #################################################################
 
   service-setup:
-    image: iotechsys/edgexpert-demo-lua:wingd-demo-x86_64
+    image: iotechsys/edgexpert-demo-lua:shipMonitoring-demo-x86_64
     container_name: service-setup
     hostname: service-setup
     read_only: true
