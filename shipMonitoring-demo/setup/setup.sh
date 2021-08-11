@@ -66,5 +66,5 @@ execute_command_until_success 1 200 curl -s -o /dev/null -w "%{http_code}" -X PO
 # Add dashboards to Grafana through REST API
 for d in dashboards/*
 do
-  execute_command_until_success 1 200 curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type:application/json" http://admin:admin@$GRAFANA_HOST:3000/api/dashboards/db --data-binary "@$d"
+  execute_command_until_success 1 200 curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type:application/json" http://admin:admin@$GRAFANA_HOST:3000/api/dashboards/db -d '{"dashboard":'"$(cat $d | tr -d '\t\n\r ')"'}'
 done
