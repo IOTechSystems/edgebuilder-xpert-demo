@@ -4,6 +4,8 @@ set -x
 # this script assumes that core services, export services, influxdb17, and grafana have been up and running.
 # For docker deployment, these containers must share the same docker network.
 
+sleep 3h
+
 execute_command_until_success(){
   max_attempts="$1"
   shift

@@ -10,6 +10,11 @@ volumes:
   license-data:
   export-data:  
   grafana-data:
+  profiles-volume:
+  devices-volume:
+  registrations-volume:
+  dashboards-volume:
+  
 
 # all common shared environment variables defined here:
 x-common-env-variables: &common-variables
@@ -23,6 +28,38 @@ x-common-env-variables: &common-variables
   EDGEXPERT_LICENSE_PATH: /edgexpert/licenses/
 
 services:
+
+  #################################################################
+  # Service Setup (Metadata, Export-Client, Grafana)
+  #################################################################
+
+  service-setup:
+    image: iotechsys/edgexpert-demo-lua:shipMonitoring-demo-x86_64
+    container_name: service-setup
+    hostname: service-setup
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      edgex-network:
+        aliases:
+          - service-setup
+    volumes:
+      - profiles-volume:/service-setup/profiles
+      - devices-volume:/service-setup/devices
+      - registrations-volume:/service-setup/registrations
+      - dashboards-volume:/service-setup/dashboards
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "20"
+    depends_on:
+      - core-metadata
+      - export-client
+      - export-distro
+      - influxdb
+      - grafana
 
   #################################################################
   # Database Services
@@ -143,7 +180,7 @@ services:
   #################################################################
 
   device-modbus-c:
-    image: iotechsys/edgexpert-device-modbus-c:1.8
+    image: iotechsys/edgexpert-device-modbus-c:1.8.2
     container_name: device-modbus
     hostname: device-modbus
     entrypoint: /modbus
@@ -213,6 +250,7 @@ services:
       <<: *common-variables
       Service_Host: export-client
       Clients_Distro_Host: export-distro
+      LOGGING_LOGLEVEL: "TRACE"
     volumes:
       - license-data:/edgexpert/licenses/:ro
     logging:
@@ -413,32 +451,3 @@ services:
       options:
         max-size: "10mb"
         max-file: "20"
-
-  #################################################################
-  # Service Setup (Metadata, Export-Client, Grafana)
-  #################################################################
-
-  service-setup:
-    image: iotechsys/edgexpert-demo-lua:shipMonitoring-demo-x86_64
-    container_name: service-setup
-    hostname: service-setup
-    read_only: true
-    security_opt:
-      - no-new-privileges:true
-    networks:
-      edgex-network:
-        aliases:
-          - service-setup
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10mb"
-        max-file: "20"
-    depends_on:
-      - core-metadata
-      - export-client
-      - export-distro
-      - influxdb
-      - grafana
-
-

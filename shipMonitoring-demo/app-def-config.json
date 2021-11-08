@@ -3,7 +3,7 @@
     {
       "Name": "shipMonitoring-demo",
       "Description": "A simple ship monitoring demo",
-      "ComposeFile": "/home/master/shipMonitoring-demo/docker-compose.yml"
+      "ComposeFile": "/home/lukeg/projects/sys-mgmt/edgebuilder-xpert-demo/shipMonitoring-demo/docker-compose.yml"
     }
   ]
 }

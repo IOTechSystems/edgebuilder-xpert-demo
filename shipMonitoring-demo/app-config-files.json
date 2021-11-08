@@ -1,0 +1,40 @@
+{
+    "AppConfigFileConfig": [
+        {
+            "Name": "modbus-engine-profile",
+            "Description": "power and temperature sensors",
+            "FileName": "profile.EngineModbus.yaml",
+            "FileContents": "setup/profiles/profile.EngineModbus.yaml"
+        },
+        {
+            "Name": "opcua-engine-profile",
+            "Description": "pressure sensor",
+            "FileName": "profile.EngineOPCUA.yaml",
+            "FileContents": "setup/profiles/profile.EngineOPCUA.yaml"
+        },
+        {
+            "Name": "modbus-device-config",
+            "Description": "modbus device configuration",
+            "FileName": "device-EngineModbus.json",
+            "FileContents": "setup/devices/device-EngineModbus.json"
+        },
+        {
+            "Name": "opcua-device-config",
+            "Description": "opcua device configuration",
+            "FileName": "device-EngineOPCUA.json",
+            "FileContents": "setup/devices/device-EngineOPCUA.json"
+        },
+        {
+            "Name": "influxdb-registration",
+            "Description": "registration file for influxdb",
+            "FileName": "influxdb.json",
+            "FileContents": "setup/registrations/influxdb.json"
+        },
+        {
+            "Name": "engine-dashboard",
+            "Description": "engine sensor dashboard for grafana",
+            "FileName": "ShipMonitoring_Dashboard.json",
+            "FileContents": "setup/dashboards/ShipMonitoring_Dashboard.json"
+        }
+    ]
+}

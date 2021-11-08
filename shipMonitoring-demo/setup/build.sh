@@ -21,7 +21,7 @@ esac
 
 ARCHIVE=$1
 DIMAGE=${IMA:-iotechsys/edgexpert-demo-lua}
-VER=${2:-service-setup}
+VER=${2:-shipMonitoring-demo}
 DFILE=Dockerfile
 
 docker rmi -f ${DIMAGE}:${VER}-${ARCH}

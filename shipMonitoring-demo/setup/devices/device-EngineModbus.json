@@ -4,7 +4,7 @@
     "operatingState":"ENABLED",
     "protocols":{
       "modbus-tcp":{
-        "Address":"192.168.33.11",
+        "Address":"192.168.50.50",
         "Port":"502",
         "UnitID":"1"
       }

@@ -1,0 +1,9 @@
+{
+    "ScriptDefinitionConfig": [
+      {
+        "Name": "install-htop",
+        "Description": "Example script definition to install htop",
+        "ScriptFile": "/home/lukeg/projects/sys-mgmt/edgebuilder-xpert-demo/shipMonitoring-demo/script.sh"
+      }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "AppConfig": [
+        {
+            "Name": "ShipMonitoringDemo",
+            "Description": "config to inject ship monitoring demo file dependencies",
+            "AppDefinitionID": "4a0dee07-53f2-4df5-9f9c-645c8d9d2745",
+            "ConfigMappings": [
+                {
+                    "Volume": "profiles-volume",
+                    "AppConfigFiles": [
+                        "modbus-engine-profile",
+                        "opcua-engine-profile"
+                    ]
+                },
+                {
+                    "Volume": "devices-volume",
+                    "AppConfigFiles": [
+                        "modbus-device-config",
+                        "opcua-device-config"
+                    ]
+                },
+                {
+                    "Volume": "registrations-volume",
+                    "AppConfigFiles": [
+                        "influxdb-registration"
+                    ]
+                },
+                {
+                    "Volume": "dashboards-volume",
+                    "AppConfigFiles": [
+                        "engine-dashboard"
+                    ]
+                }
+            ]
+        }
+    ]
+}
