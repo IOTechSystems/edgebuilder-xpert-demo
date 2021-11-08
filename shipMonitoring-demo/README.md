@@ -104,11 +104,23 @@ Run the command to add appDefinition:
 ```shell
 sudo edgebuilder-cli appDefinition add -f <path-to-app-def-config.json>
 ```
+### 3. Add app config and config files
+The **app-config-files.json** and **app-config.json** files define the paths to app config files and the mapping of those files to paths/volumes on the node. Before running the following commands, update the **app-config.json** file to include the ID of the app definition just created.
+
+Run the command to add app config files:
+```shell
+sudo edgebuilder-cli appConfigFile add -f <path-to-app-config-files.json>
+```
+Run the command to create the app config:
+```shell
+sudo edgebuilder-cli appConfig add -f <path-to-app-config.json>
+```
+
 ### 3. Create and start an app instance on the node
 Run the command to create app:
 ```shell
 # edgebuilder-cli app create -d <appDefinition name> -n <node name>
-sudo edgebuilder-cli app create -d shipMonitoring-demo -n node1
+sudo edgebuilder-cli app create -d shipMonitoring-demo -n node1 -c ShipMonitoringDemo
 ```
 Run the command to start app:
 ```shell
@@ -125,7 +137,7 @@ Wait for the service-setup container to finish the setup (~ 1 min).
 * [AWS IoT](https://us-east-2.console.aws.amazon.com/iot/home?region=us-east-2#/thinghub) -> Manage -> Things -> Engine -> Shadow
 * Grafana: http://192.168.33.11:3000/d/VvC5eGcMk/ship-monitoring-dashboard?refresh=5s&orgId=1
 
-### 5. Remove app , appDefinition and node
+### 5. Remove app, appDefinition and node
 Run the command to remove app:
 ```shell
 sudo edgebuilder-cli app rm -a <app name or app id>
