@@ -1,0 +1,112 @@
+[Writable]
+LogLevel = "INFO"
+ 
+  [Writable.StoreAndForward]
+  Enabled = true
+  RetryInterval = "10s"
+  MaxRetryCount = 10
+      
+  [Writable.Pipeline]
+  ExecutionOrder = "Batch, Compress, Encrypt, XpertMQTTExport"
+    [Writable.Pipeline.Functions.Compress]
+      [Writable.Pipeline.Functions.Compress.Parameters]
+      Algorithm = "gzip"      
+    [Writable.Pipeline.Functions.Encrypt]
+      [Writable.Pipeline.Functions.Encrypt.Parameters]
+      Algorithm = "aes"
+      Key = "aquqweoruqwpeoruqwpoeruqwpoierupqoweiurpoqwiuerpqowieurqpowieurpoqiweuroipwqure"
+      InitVector = "123456789012345678901234567890"
+      SecretPath = ""
+      SecretName = ""
+    [Writable.Pipeline.Functions.Batch]
+      [Writable.Pipeline.Functions.Batch.Parameters]
+      Mode = "bycount" # can be 'bycount', 'bytime' or 'bytimecount'
+      BatchThreshold = "20"
+      TimeInterval = "5s"
+      UseRawDataType = "true"
+    [Writable.Pipeline.Functions.XpertMQTTExport]
+      [Writable.Pipeline.Functions.XpertMQTTExport.Parameters]
+      ExportMode = "mqtt"
+      BrokerAddress = "tls://{identifier}.iot.{region}.amazonaws.com:8883"
+      # For further information on AWS Device Shadaow MQTT topics, refer to https://docs.aws.amazon.com/iot/latest/developerguide/device-shadow-mqtt.html#get-pub-sub-topic.
+      Topic = "opc-ua"
+      ClientID = "opcuaTest"
+      SecretPath = "aws"
+      Qos = "0"
+      AutoReconnect = "false"
+      SkipVerify = "false"
+      PersistOnError = "true"
+      AuthMode = "clientcert"
+
+# InsecureSecrets are required for Store and Forward DB access and for authenticated export functions
+# when not using security services, i.e. Vault
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+    path = "redisdb"
+      [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
+    [Writable.InsecureSecrets.aws]
+    path = "aws"
+      [Writable.InsecureSecrets.aws.Secrets]
+      # When using XpertMQTTExport and ExportMode="AWSIoTCore", clientcert and clientkey are mandatory secrets.
+      clientcert = '''
+{X509_PEM_certificate}
+'''
+          clientkey = '''
+{X509_PEM_private_key}
+'''
+
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+Port = 59700
+ServerBindAddr = "" # if blank, uses default Go behavior https://golang.org/pkg/net/#Listen
+StartupMsg = "app-service has started"
+MaxResultCount = 0 # Not curently used by App Services.
+MaxRequestSize = 0 # Not curently used by App Services.
+RequestTimeout = "5s"
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+
+# Database is require when Store and Forward is enabled
+# Note when running in docker from compose file set the following environment variables:
+# - Database_Host: edgex-redis
+[Database]
+Type = "redisdb"
+Host = "localhost"
+Port = 6379
+Timeout = "30s"
+
+# Note Core Metadata is the only required client as it is now used for the version check
+# The other clients are only needed if the client interface is being used by one of the configured functions.
+[Clients]
+  # Used for version check on start-up
+  # Also used for DeviceSevice, DeviceProfile and Device clients, which are used by FilterByValueMaxMin function
+  [Clients.core-metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59881
+
+[Trigger]
+Type="edgex-messagebus"
+  [Trigger.EdgexMessageBus]
+  Type = "redis"
+    [Trigger.EdgexMessageBus.SubscribeHost]
+    Host = "localhost"
+    Port = 6379
+    Protocol = "redis"
+    # only subscribe events from the profile test-opc-ua-profile
+    SubscribeTopics="edgex/events/device/test-opc-ua-profile/device-opc-ua/#"
+    [Trigger.EdgexMessageBus.PublishHost]
+    Host = "localhost"
+    Port = 6379
+    Protocol = "redis"
+    PublishTopic="example"
+    [Trigger.EdgexMessageBus.Optional]
+    authmode = "usernamepassword"  # required for redis messagebus (secure or insecure).
+    secretname = "redisdb"
+

@@ -1,0 +1,28 @@
+{
+    "AppConfigFileConfig": [
+      {
+        "Name": "licnese-data-file",
+        "Description": "a file to configure license",
+        "FileName": "license.lic",
+        "FileContents": "/home/server/v2.0_large-signals-demo/<edge-xpert-license>"
+      },
+      {
+        "Name": "app-influxdb-toml",
+        "Description": "a file to configure app-influxdb",
+        "FileName": "app-influxdb.toml",
+        "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-influxdb.toml"
+      },
+      {
+        "Name": "app-aws-modbus-toml",
+        "Description": "a file to configure app-aws-modbus",
+        "FileName": "app-aws-modbus.toml",
+        "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-aws-modbus.toml"
+      },
+      {
+        "Name": "app-aws-opc-ua-toml",
+        "Description": "a file to configure app-aws-opc-ua",
+        "FileName": "app-aws-opc-ua.toml",
+        "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-aws-opc-ua.toml"
+      }
+    ]
+  }

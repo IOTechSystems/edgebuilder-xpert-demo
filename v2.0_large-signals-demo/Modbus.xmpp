@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE modbuspal_project SYSTEM "modbuspal.dtd">
+<modbuspal_project>
+<idgen  value="21"/>
+<links selected="TCP/IP" >
+<tcpip port="502" />
+<serial com="null" baudrate="9600" parity="even" stops="1" >
+<flowcontrol xonxoff="false" rtscts="false" />
+</serial>
+</links>
+<automation name="int16-10-20" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="10.0" relative="false"/>
+<end value="20.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-20-30" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="20.0" relative="false"/>
+<end value="30.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-30-40" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="30.0" relative="false"/>
+<end value="40.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-40-50" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="40.0" relative="false"/>
+<end value="50.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-50-60" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="50.0" relative="false"/>
+<end value="60.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-60-70" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="60.0" relative="false"/>
+<end value="70.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-70-80" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="70.0" relative="false"/>
+<end value="80.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-80-90" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="80.0" relative="false"/>
+<end value="90.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-90-100" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="10.0">
+<start value="90.0" relative="false"/>
+<end value="100.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-100-5s" step="5.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="100.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-100-2s" step="2.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="100.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-200-5s" step="5.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="200.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-200-2s" step="2.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="200.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-500-10s" step="10.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="500.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-500-5s" step="5.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="500.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-500-2s" step="2.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="100.0">
+<start value="0.0" relative="false"/>
+<end value="500.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-30-3s" step="3.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="30.0">
+<start value="0.0" relative="false"/>
+<end value="30.0" relative="false"/>
+</generator>
+</automation>
+<automation name="int16-60-3s" step="3.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="30.0">
+<start value="0.0" relative="false"/>
+<end value="60.0" relative="false"/>
+</generator>
+</automation>
+<slave id="1" enabled="true" name="Simulator" implementation="modbus">
+<holding_registers>
+<register address="0" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="1" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="2" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="3" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="4" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="5" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="6" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="7" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="8" value="0">
+<binding automation="int16-90-100" class="Binding_SINT16" order="0"/>
+</register>
+<register address="9" value="0"/>
+<register address="10" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="11" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="12" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="13" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="14" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="15" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="16" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="17" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="18" value="0">
+<binding automation="int16-60-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="19" value="0"/>
+<register address="20" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="21" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="22" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="23" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="24" value="0">
+<binding automation="int16-10-20" class="Binding_SINT16" order="0"/>
+</register>
+<register address="25" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="26" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="27" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="28" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="29" value="0">
+<binding automation="int16-100-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="30" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="31" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="32" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="33" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="34" value="0">
+<binding automation="int16-20-30" class="Binding_SINT16" order="0"/>
+</register>
+<register address="35" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="36" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="37" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="38" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="39" value="0">
+<binding automation="int16-100-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="40" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="41" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="42" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="43" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="44" value="0">
+<binding automation="int16-30-40" class="Binding_SINT16" order="0"/>
+</register>
+<register address="45" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="46" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="47" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="48" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="49" value="0">
+<binding automation="int16-200-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="50" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="51" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="52" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="53" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="54" value="0">
+<binding automation="int16-40-50" class="Binding_SINT16" order="0"/>
+</register>
+<register address="55" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="56" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="57" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="58" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="59" value="0">
+<binding automation="int16-200-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="60" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="61" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="62" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="63" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="64" value="0">
+<binding automation="int16-50-60" class="Binding_SINT16" order="0"/>
+</register>
+<register address="65" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="66" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="67" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="68" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="69" value="0">
+<binding automation="int16-500-10s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="70" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="71" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="72" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="73" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="74" value="0">
+<binding automation="int16-60-70" class="Binding_SINT16" order="0"/>
+</register>
+<register address="75" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="76" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="77" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="78" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="79" value="0">
+<binding automation="int16-500-5s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="80" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="81" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="82" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="83" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="84" value="0">
+<binding automation="int16-70-80" class="Binding_SINT16" order="0"/>
+</register>
+<register address="85" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="86" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="87" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="88" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="89" value="0">
+<binding automation="int16-500-2s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="90" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="91" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="92" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="93" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="94" value="0">
+<binding automation="int16-80-90" class="Binding_SINT16" order="0"/>
+</register>
+<register address="95" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="96" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="97" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="98" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+<register address="99" value="0">
+<binding automation="int16-30-3s" class="Binding_SINT16" order="0"/>
+</register>
+</holding_registers>
+<coils>
+</coils>
+<tuning>
+<reply_delay min="0" max="0" />
+<error_rates no_reply="0.0" />
+</tuning>
+</slave>
+</modbuspal_project>

@@ -1,0 +1,9 @@
+{
+  "AppDefinitionConfig": [
+    {
+      "Name": "large-signals-demo",
+      "Description": "A simple large signals demo",
+      "ComposeFile": "/home/server/v2.0_large-signals-demo/docker-compose.yml"
+    }
+  ]
+}

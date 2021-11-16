@@ -1,0 +1,120 @@
+[
+  {
+    "apiVersion": "v2",
+    "device": {
+      "name": "device-opc-ua",
+      "adminState": "UNLOCKED",
+      "operatingState": "UP",
+      "protocols": {
+        "OPC-UA": { 
+          "Address": "172.17.0.1:53530/OPCUA/SimulationServer" 
+        }
+      },
+      "serviceName": "device-opc-ua",
+      "profileName": "test-opc-ua-profile",
+      "protocolName": "opc-ua",
+      "autoEvents": [
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        }
+      ]
+    }
+  }
+]
