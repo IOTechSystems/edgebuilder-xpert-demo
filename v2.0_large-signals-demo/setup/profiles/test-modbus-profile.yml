@@ -1,0 +1,1233 @@
+name: "test-modbus-profile"
+manufacturer: "testing"
+model: "testing"
+labels:
+- "modbus"
+description: "Mock Modbus device for test."
+
+deviceResources:
+-
+  name: "int16-1"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "0" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-2"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "1" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-3"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "2" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-4"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "3" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-5"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "4" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-6"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "5" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-7"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "6" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-8"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "7" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-9"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "8" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-10"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "9" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"    
+-
+  name: "int16-11"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "10" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-12"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "11" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"    
+-
+  name: "int16-13"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "12" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-14"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "13" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-15"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "14" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-16"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "15" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-17"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "16" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-18"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "17" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"        
+-
+  name: "int16-19"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "18" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-20"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "19" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-21"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "20" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-22"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "21" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-23"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "22" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-24"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "23" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-25"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "24" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-26"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "25" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-27"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "26" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-28"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "27" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-29"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "28" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-30"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "29" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"   
+-
+  name: "int16-31"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "30" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"                                    
+-
+  name: "int16-32"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "31" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-33"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "32" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-34"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "33" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-35"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "34" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-36"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "35" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-37"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "36" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-38"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "37" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-39"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "38" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-40"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "39" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-41"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "40" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-42"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "41" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-43"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "42" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-44"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "43" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-45"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "44" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-46"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "45" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-47"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "46" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-48"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "47" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-49"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "48" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-50"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "49" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-51"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "50" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-52"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "51" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-53"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "52" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-54"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "53" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-55"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "54" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-56"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "55" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-57"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "56" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-58"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "57" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-59"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "58" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-60"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "59" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-61"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "60" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-62"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "61" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-63"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "62" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-64"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "63" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-65"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "64" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-66"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "65" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-67"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "66" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-68"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "67" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-69"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "68" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-70"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "69" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-71"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "10" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-72"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "71" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-73"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "72" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-74"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "73" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-75"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "74" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-76"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "75" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-77"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "76" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-78"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "77" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-79"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "78" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-80"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "79" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-81"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "10" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-82"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "81" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-83"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "82" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-84"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "83" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-85"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "84" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-86"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "85" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-87"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "86" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-88"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "87" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-89"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "88" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-90"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "89" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-91"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "10" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-92"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "91" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-93"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "92" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-94"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "93" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-95"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "94" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-96"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "95" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-97"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "96" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0" 
+-
+  name: "int16-98"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "97" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-99"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "98" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+-
+  name: "int16-100"
+  description: "test int value"
+  isHidden: true
+  tag: "status"
+  attributes:
+    { primaryTable: "HOLDING_REGISTERS", startingAddress: "99" }
+  properties:
+    valueType: "INT16"
+    readWrite: "RW"
+    defaultValue: "0"
+
+
+deviceCommands:
+-
+  name: "integerA"
+  isHidden: false
+  readWrite: "R"
+  resourceOperations:
+    - deviceResource: "int16-1"
+    - deviceResource: "int16-2"
+    - deviceResource: "int16-3"
+    - deviceResource: "int16-4"
+    - deviceResource: "int16-5"
+    - deviceResource: "int16-6"
+    - deviceResource: "int16-7"
+    - deviceResource: "int16-8"
+    - deviceResource: "int16-9"
+    - deviceResource: "int16-10"
+    - deviceResource: "int16-11"
+    - deviceResource: "int16-12"
+    - deviceResource: "int16-13"
+    - deviceResource: "int16-14"
+    - deviceResource: "int16-15"
+    - deviceResource: "int16-16"
+    - deviceResource: "int16-17"
+    - deviceResource: "int16-18"
+    - deviceResource: "int16-19"
+    - deviceResource: "int16-20"    
+    - deviceResource: "int16-21"
+    - deviceResource: "int16-22"
+    - deviceResource: "int16-23"
+    - deviceResource: "int16-24"
+    - deviceResource: "int16-25"
+    - deviceResource: "int16-26"
+    - deviceResource: "int16-27"
+    - deviceResource: "int16-28"
+    - deviceResource: "int16-29"
+    - deviceResource: "int16-30"
+    - deviceResource: "int16-31"
+    - deviceResource: "int16-32"
+    - deviceResource: "int16-33"
+    - deviceResource: "int16-34"
+    - deviceResource: "int16-35"
+    - deviceResource: "int16-36"
+    - deviceResource: "int16-37"
+    - deviceResource: "int16-38"
+    - deviceResource: "int16-39"
+    - deviceResource: "int16-40" 
+    - deviceResource: "int16-41"
+    - deviceResource: "int16-42"
+    - deviceResource: "int16-43"
+    - deviceResource: "int16-44"
+    - deviceResource: "int16-45"
+    - deviceResource: "int16-46"
+    - deviceResource: "int16-47"
+    - deviceResource: "int16-48"
+    - deviceResource: "int16-49"
+    - deviceResource: "int16-50"
+    - deviceResource: "int16-51"
+    - deviceResource: "int16-52"
+    - deviceResource: "int16-53"
+    - deviceResource: "int16-54"
+    - deviceResource: "int16-55"
+    - deviceResource: "int16-56"
+    - deviceResource: "int16-57"
+    - deviceResource: "int16-58"
+    - deviceResource: "int16-59"
+    - deviceResource: "int16-60" 
+    - deviceResource: "int16-61"
+    - deviceResource: "int16-62"
+    - deviceResource: "int16-63"
+    - deviceResource: "int16-64"
+    - deviceResource: "int16-65"
+    - deviceResource: "int16-66"
+    - deviceResource: "int16-67"
+    - deviceResource: "int16-68"
+    - deviceResource: "int16-69"
+    - deviceResource: "int16-70"
+    - deviceResource: "int16-71"
+    - deviceResource: "int16-72"
+    - deviceResource: "int16-73"
+    - deviceResource: "int16-74"
+    - deviceResource: "int16-75"
+    - deviceResource: "int16-76"
+    - deviceResource: "int16-77"
+    - deviceResource: "int16-78"
+    - deviceResource: "int16-79"
+    - deviceResource: "int16-80"         
+    - deviceResource: "int16-81"
+    - deviceResource: "int16-82"
+    - deviceResource: "int16-83"
+    - deviceResource: "int16-84"
+    - deviceResource: "int16-85"
+    - deviceResource: "int16-86"
+    - deviceResource: "int16-87"
+    - deviceResource: "int16-88"
+    - deviceResource: "int16-89"
+    - deviceResource: "int16-90"
+    - deviceResource: "int16-91"
+    - deviceResource: "int16-92"
+    - deviceResource: "int16-93"
+    - deviceResource: "int16-94"
+    - deviceResource: "int16-95"
+    - deviceResource: "int16-96"
+    - deviceResource: "int16-97"
+    - deviceResource: "int16-98"
+    - deviceResource: "int16-99"      
+    - deviceResource: "int16-100"
+-
+  name: "integerB"
+  isHidden: false
+  readWrite: "R"
+  resourceOperations:
+    - deviceResource: "int16-1"
+
+-
+  name: "integerC"
+  isHidden: false
+  readWrite: "R"
+  resourceOperations:
+    - deviceResource: "int16-1"    
+    - deviceResource: "int16-2" 
+    - deviceResource: "int16-3" 
+    - deviceResource: "int16-4" 
+    - deviceResource: "int16-5"                 

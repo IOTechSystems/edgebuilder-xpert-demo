@@ -1,0 +1,35 @@
+{
+  "AppConfig": [
+    {
+      "Name": "edgexpert-config",
+      "Description": "edgexpert volumes",
+      "AppDefinitionID": "<app-def-id>",
+      "ConfigMappings": [
+        {
+          "Volume": "license-data",
+          "AppConfigFiles": [
+            "licnese-data-file"
+          ]
+        },
+        {
+          "Volume": "app-influxdb-config",
+          "AppConfigFiles": [
+            "app-influxdb-toml"
+          ]
+        },
+        {
+          "Volume": "app-aws-modbus-config",
+          "AppConfigFiles": [
+            "app-aws-modbus-toml"
+          ]
+        },
+        {
+          "Volume": "app-aws-opc-ua-config",
+          "AppConfigFiles": [
+            "app-aws-opc-ua-toml"
+          ]
+        }
+      ]
+    }
+  ]
+}

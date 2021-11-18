@@ -1,0 +1,112 @@
+[Writable]
+LogLevel = "INFO"
+
+  [Writable.StoreAndForward]
+  Enabled = true
+  RetryInterval = "5m"
+  MaxRetryCount = 10
+
+  [Writable.Pipeline]
+  ExecutionOrder = "Batch, InfluxDBSyncWrite"
+    [Writable.Pipeline.Functions.Batch]
+      [Writable.Pipeline.Functions.Batch.Parameters]
+      Mode = "bytime" # can be 'bycount', 'bytime' or 'bytimecount'
+      BatchThreshold = "30"
+      TimeInterval = "5s"
+    [Writable.Pipeline.Functions.InfluxDBSyncWrite]
+      [Writable.Pipeline.Functions.InfluxDBSyncWrite.Parameters]
+      InfluxDBServerURL = "http://influxdb2:8086"
+      InfluxDBOrganization = "my-org"
+      InfluxDBBucket = "my-bucket"
+      InfluxDBMeasurement = "readings"
+      InfluxDBValueType = "integer"
+      InfluxDBPrecision = "us"
+      AuthMode = "token"
+      SecretPath = "influxdb"
+      SkipVerify = "false"
+      PersistOnError = "true"
+
+# InsecureSecrets are required for Store and Forward DB access and for authenticated MQTT exports with
+# new MQTTSecretSend function when not using security services, i.e. Vault
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+    path = "redisdb"
+      [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
+    [Writable.InsecureSecrets.influxdb]
+        path = "influxdb"
+        [Writable.InsecureSecrets.influxdb.Secrets]
+        # When using InfluxDBSyncWrite, token is a mandatory secret.
+        token = "token"
+
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+Port = 59703
+ServerBindAddr = "" # if blank, uses default Go behavior https://golang.org/pkg/net/#Listen
+StartupMsg = "app service has Started"
+MaxResultCount = 0 # Not curently used by App Services.
+MaxRequestSize = 0 # Not curently used by App Services.
+RequestTimeout = "5s"
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+
+# Database is require when Store and Forward is enabled or when using Redis for the Messagebus
+# Note when running in docker from compose file set the following environment variables:
+# - Database_Host: edgex-redis
+[Database]
+Type = "redisdb"
+Host = "localhost"
+Port = 6379
+Timeout = "30s"
+
+# SecretStore is required when Store and Forward is enabled and running with security
+# so Database credentials can be pulled from Vault. Also now require when running with secure Consul
+# Note when running in docker from compose file set the following environment variables:
+#   - SecretStore_Host: edgex-vault
+[SecretStore]
+Type = "vault"
+Host = "localhost"
+Port = 8200
+Path = "app-mqtt-export/"
+Protocol = "http"
+RootCaCertPath = ""
+ServerName = ""
+TokenFile = "/tmp/edgex/secrets/app-mqtt-export/secrets-token.json"
+  [SecretStore.Authentication]
+  AuthType = "X-Vault-Token"
+
+[Clients]
+  # Used for version check on start-up
+  [Clients.core-metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59881
+
+[Trigger]
+Type="edgex-messagebus"
+  [Trigger.EdgexMessageBus]
+  Type = "redis"
+    [Trigger.EdgexMessageBus.SubscribeHost]
+    Host = "localhost"
+    Port = 6379
+    Protocol = "redis"
+    SubscribeTopics="edgex/events/#"
+    [Trigger.EdgexMessageBus.Optional]
+    authmode = "usernamepassword"  # required for redis messagebus (secure or insecure).
+    secretname = "redisdb"
+    # Default MQTT Specific options that need to be here to enable evnironment variable overrides of them
+    # Client Identifiers
+    ClientId ="app-mqtt-export"
+    # Connection information
+    Qos          =  "0" # Quality of Sevice values are 0 (At most once), 1 (At least once) or 2 (Exactly once)
+    KeepAlive    =  "10" # Seconds (must be 2 or greater)
+    Retained     = "false"
+    AutoReconnect  = "true"
+    ConnectTimeout = "5" # Seconds
+    # TLS configuration - Only used if Cert/Key file or Cert/Key PEMblock are specified
+    SkipCertVerify = "false"

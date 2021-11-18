@@ -1,0 +1,122 @@
+[
+  {
+    "apiVersion": "v2",
+    "device": {
+      "name": "device-modbus",
+      "adminState": "UNLOCKED",
+      "operatingState": "UP",
+      "protocols": {
+        "modbus-tcp": {
+          "Address": "172.17.0.1",
+          "Port": "502",
+          "UnitID": "1"
+       }
+      },
+      "serviceName": "device-modbus",
+      "profileName": "test-modbus-profile",
+      "protocolName": "modbus-tcp",
+      "autoEvents": [
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        },
+        {
+          "interval": "1000ms",
+          "onChange": false,
+          "sourceName": "integerA"
+        }
+      ]
+    }
+  }
+]
