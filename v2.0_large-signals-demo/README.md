@@ -80,7 +80,7 @@ cd path-to-setup
 ## Run the Demo
 > **⚠ Must have already logged in Edge Builder and added the license.**
 
-> **⚠ Replace BrokerAddress, clientcert, and clientke in the app-service/app-aws-modbus.toml and app-servie/app-aws-opc-ua.toml with a valid AWS IOT config**
+> **⚠ Replace BrokerAddress, clientcert, and clientkey in the app-service/app-aws-modbus.toml and app-servie/app-aws-opc-ua.toml with a valid AWS IOT config**
 
 1. Put the Edge Xpert license file in this sample folder, and copy the folder into the server (machine A)
 2. Add node
@@ -133,6 +133,8 @@ cd path-to-setup
     edgebuilder-cli appDefinition add -f <path-to-app-def.json>
     e.g. edgebuilder-cli appDefinition add -f app-def.json
     ```
+   > **⚠ If you update the compose file, please remove the appDefinition and recreate it.**
+
 4. Add app config and config files
    
     The **app-config-file.json** defines the paths to app config files.
@@ -218,7 +220,11 @@ cd path-to-setup
     edgebuilder-cli appConfig add -f <path-to-app-config.json>
     e.g. edgebuilder-cli appConfig add -f app-config.json
     ```
-   
+
+   > **⚠ If you update the app-config-file.json, please remove the appConfigFile and recreate it (and maybe appConfig as well).**
+
+   > **⚠ If you update the app-config.json or recreate the app, please remove the appConfig and recreate it.**
+
 5. Create and start an app instance on the node
 
     Run the command to create app:
@@ -243,28 +249,38 @@ cd path-to-setup
    
 
 ### Remove app, appConfig, appConfigFile, appDefinition and node
-Run the command to remove app:
-```shell
-edgebuilder-cli app rm -a <app-name or app-id>
-```
-Run the command to remove app config:
-```shell
-# edgebuilder-cli appConfig rm -c <app-config-name or app-config-id> 
-e.g. 
-```
-Run the command to remove app config file:
-```shell
-edgebuilder-cli appConfigFile rm --all
-```
-Run the command to remove appDefinition:
-```shell
-edgebuilder-cli appDefinition rm -d <app-def-name or app-def-id>
-```
-Run the command to remove node:
-```shell
-edgebuilder-cli node rm -n <node name>
-```
-Run the command to bring down server:
-```shell
-edgebuilder-server down
-```
+
+* Run the command to remove app:
+  ```shell
+  edgebuilder-cli app rm -a <app-name or app-id>
+   ```
+* Run the command to remove app config:
+  > **⚠ Must remove the associated apps before removing an app config.**
+
+  ```shell
+  # edgebuilder-cli appConfig rm -c <app-config-name or app-config-id>
+  e.g. edgebuilder-cli appConfig rm -c edgexpert-config
+  ```
+* Run the command to remove app config file:
+  > **⚠ Must remove the associated appConfigs before removing an app config file.**
+
+  ```shell
+  # remove all appConfigFile or use "-d" to remove a specified appConfigFile
+  edgebuilder-cli appConfigFile rm --all 
+  ```
+* Run the command to remove appDefinition:
+  > **⚠ Must remove the associated apps before removing an app definition.**
+  
+  ```shell
+  edgebuilder-cli appDefinition rm -d <app-def-name or app-def-id>
+  e.g. edgebuilder-cli appDefinition rm -d large-signals-demo
+  ```
+* Run the command to remove node:
+  ```shell
+  edgebuilder-cli node rm -n <node name>
+  e.g. edgebuilder-cli node rm -n node1
+  ```
+* Run the command to bring down server:
+  ```shell
+  edgebuilder-server down
+  ```
