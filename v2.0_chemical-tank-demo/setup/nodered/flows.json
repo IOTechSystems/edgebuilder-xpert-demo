@@ -1,0 +1,103 @@
+[
+    {
+        "id": "92bbcd56.c49ac8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d73cab5a.ab4f48",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt-broker",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "5167f729.e4a008",
+        "type": "mqtt in",
+        "z": "92bbcd56.c49ac8",
+        "name": "",
+        "topic": "MyTopic",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "d73cab5a.ab4f48",
+        "nl": false,
+        "rap": false,
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "2a5f3436.6e4f14"
+            ]
+        ]
+    },
+    {
+        "id": "2a5f3436.6e4f14",
+        "type": "json",
+        "z": "92bbcd56.c49ac8",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": true,
+        "x": 310,
+        "y": 220,
+        "wires": [
+            [
+                "ad510dfe.cc7d4"
+            ]
+        ]
+    },
+    {
+        "id": "ad510dfe.cc7d4",
+        "type": "function",
+        "z": "92bbcd56.c49ac8",
+        "name": "Decision Making",
+        "func": "if (msg.payload.deviceName == \"Chemical-Tank\")\n{\n    if (msg.payload.readings[0].resourceName == \"Temperature\")\n    {\n        flow.set(\"temperature\", msg.payload.readings[0].value);\n        //node.log (\"setting temp = \" + flow.get(\"temperature\"));\n    }\n    else if (msg.payload.readings[0].resourceName == \"Pressure\")\n    {\n        flow.set(\"pressure\", msg.payload.readings[0].value);\n        //node.log (\"setting pressure = \" + flow.get(\"pressure\"));\n    }\n    else if (msg.payload.readings[0].resourceName == \"Level\")\n    {\n        flow.set(\"level\", msg.payload.readings[0].value);\n        //node.log (\"setting level = \" + flow.get(\"level\"));\n    }\n    else if (msg.payload.readings[0].resourceName == \"Limit\")\n    {\n        flow.set(\"limit\", msg.payload.readings[0].value);\n        //node.log (\"setting limit = \" + flow.get(\"limit\"));\n    }\n        \n    var data = {};\n    data[\"Setting\"] = \"0\";\n        \n    var temperature = Number(flow.get(\"temperature\"));\n    var pressure = Number(flow.get(\"pressure\"));\n    var level = Number(flow.get(\"level\"));\n    var limit = 80;// Number(flow.get(\"limit\"));\n\n    if ( temperature > limit  || \n         pressure > limit  ||\n         level > limit )\n        {\n            data[\"Setting\"] = \"1\";\n            node.log (\"Opening Valve!\");\n        }\n        \n    msg.payload = JSON.stringify(data);\n    msg.url = \"http://device-opc-ua:59953/api/v2/device/name/Outlet-Valve/Setting\"\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 220,
+        "wires": [
+            [
+                "eab46a30.53be28"
+            ]
+        ]
+    },
+    {
+        "id": "eab46a30.53be28",
+        "type": "http request",
+        "z": "92bbcd56.c49ac8",
+        "name": "Set Outlet Valve",
+        "method": "PUT",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 780,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    }
+]

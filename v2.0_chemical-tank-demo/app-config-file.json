@@ -1,0 +1,28 @@
+{
+    "AppConfigFileConfig": [
+      {
+        "Name": "licnese-data-file",
+        "Description": "a file to configure license",
+        "FileName": "license.lic",
+        "FileContents": "/home/server/v2.0_chemical-tank-demo/<edge-xpert-license>"
+      },
+      {
+        "Name": "app-influxdb-toml",
+        "Description": "a file to configure app-influxdb",
+        "FileName": "influx.toml",
+        "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/influx.toml"
+      },
+      {
+        "Name": "app-hive-mqtt-toml",
+        "Description": "a file to configure app-hive-mqtt",
+        "FileName": "hive-mqtt.toml",
+        "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/hive-mqtt.toml"
+      },
+      {
+        "Name": "app-nodered-mqtt-toml",
+        "Description": "a file to configure app-nodered-mqtt",
+        "FileName": "nodered-mqtt.toml",
+        "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/nodered-mqtt.toml"
+      }
+    ]
+  }

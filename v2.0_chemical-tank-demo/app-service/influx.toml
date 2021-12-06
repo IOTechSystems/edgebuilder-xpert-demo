@@ -1,0 +1,94 @@
+[Writable]
+  LogLevel = "INFO"
+
+  [Writable.Pipeline]
+  ExecutionOrder = "FilterByDeviceName, InfluxDBSyncWrite"
+
+    [Writable.Pipeline.Functions.FilterByDeviceName]
+      [Writable.Pipeline.Functions.FilterByDeviceName.Parameters]
+      DeviceNames = "Chemical-Tank, Outlet-Valve"
+    [Writable.Pipeline.Functions.InfluxDBSyncWrite]
+      [Writable.Pipeline.Functions.InfluxDBSyncWrite.Parameters]
+      InfluxDBServerURL = "http://influxdb2:8086"
+      InfluxDBOrganization = "my-org"
+      InfluxDBBucket = "my-bucket"
+      InfluxDBMeasurement = "readings"
+      InfluxDBValueType = "integer"
+      InfluxDBPrecision = "us"
+      AuthMode = "token"
+      SecretPath = "influxdb"
+
+# InsecureSecrets are required for Store and Forward DB access and for authenticated export functions
+# when not using security services, i.e. Vault
+  [Writable.InsecureSecrets]
+    [Writable.InsecureSecrets.DB]
+        path = "redisdb"
+        [Writable.InsecureSecrets.DB.Secrets]
+            username = ""
+            password = ""
+    [Writable.InsecureSecrets.influxdb]
+        path = "influxdb"
+        [Writable.InsecureSecrets.influxdb.Secrets]
+        # When using InfluxDBSyncWrite, token is a mandatory secret.
+        token = "custom-token"
+
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+Port = 59700
+ServerBindAddr = "" # if blank, uses default Go behavior https://golang.org/pkg/net/#Listen
+StartupMsg = "app-service for demo has started"
+RequestTimeout = "5s"
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+
+# Database is require when Store and Forward is enabled
+# Note when running in docker from compose file set the following environment variables:
+# - Database_Host: edgex-redis
+[Database]
+Type = "redisdb"
+Host = "localhost"
+Port = 6379
+Timeout = "30s"
+
+# SecretStore is required when Store and Forward is enabled and running with security
+# so Database credentials can be pulled from Vault. Also now require when running with secure Consul
+# Note when running in docker from compose file set the following environment variables:
+#   - SecretStore_Host: edgex-vault
+[SecretStore]
+Type = "vault"
+Host = "localhost"
+Port = 8200
+Path = "app-service"
+Protocol = "http"
+RootCaCertPath = ""
+ServerName = ""
+TokenFile = "/tmp/edgex/secrets/app-service/secrets-token.json"
+  [SecretStore.Authentication]
+  AuthType = "X-Vault-Token"
+
+# Note Core Metadata is the only required client as it is now used for the version check
+# The other clients are only needed if the client interface is being used by one of the configured functions.
+[Clients]
+  # Used for version check on start-up
+  # Also used for DeviceSevice, DeviceProfile and Device clients, which are used by FilterByValueMaxMin function
+  [Clients.core-metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59881
+
+[Trigger]
+Type="edgex-messagebus"
+  [Trigger.EdgexMessageBus]
+  Type = "redis"
+    [Trigger.EdgexMessageBus.SubscribeHost]
+    Host = "localhost"
+    Port = 6379
+    Protocol = "redis"
+    SubscribeTopics="edgex/events/#"
+    [Trigger.EdgexMessageBus.Optional]
+    authmode = "usernamepassword"  # required for redis messagebus (secure or insecure).
+    secretname = "redisdb"

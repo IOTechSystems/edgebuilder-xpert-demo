@@ -1,0 +1,23 @@
+name: Outlet-Valve
+manufacturer: IOTech
+description: Mechanized Outlet Valve
+labels: [opc-ua]
+deviceResources:
+- name: Setting
+  isHidden: false
+  properties:
+    valueType: Uint16
+    readWrite: RW
+    units: String
+    defaultValue: "0"
+  attributes:
+    IDType: STRING
+    monitored: "True"
+    nodeID: UInt16
+    nsIndex: "5"
+deviceCommands:
+- name: Setting
+  isHidden: false
+  readWrite: RW
+  resourceOperations:
+  - deviceResource: Setting

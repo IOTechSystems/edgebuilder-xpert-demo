@@ -1,0 +1,9 @@
+{
+  "AppDefinitionConfig": [
+    {
+      "Name": "chemical-tank-demo",
+      "Description": "Chemical Tank Control Demo",
+      "ComposeFile": "/home/server/v2.0_chemical-tank-demo/docker-compose.yml"
+    }
+  ]
+}
