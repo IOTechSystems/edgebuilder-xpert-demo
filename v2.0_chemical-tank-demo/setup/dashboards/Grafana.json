@@ -1,17 +1,4 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": "-- Grafana --",
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -20,6 +7,11 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -28,27 +20,50 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Modbus Engine Data",
+      "title": "Modbus Tank Data",
       "type": "row"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "celsius",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -59,102 +74,71 @@
       "id": 10,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
+      "maxDataPoints": 1,
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
         },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
-          "groupBy": [],
-          "measurement": "readings",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "Engine Modbus"
-            },
-            {
-              "condition": "AND",
-              "key": "resource_name",
-              "operator": "=",
-              "value": "TM0001"
-            }
-          ]
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -5s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Temperature\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
+          "refId": "A"
         }
       ],
-      "thresholds": "60,80",
       "title": "Temperature",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "gauge"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "kwatt",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pressurebar"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -165,44 +149,28 @@
       "id": 11,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -5s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Pressure\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -219,78 +187,38 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PW0001"
+              "value": "Pressure"
             }
           ]
         }
       ],
-      "thresholds": "60,80",
-      "title": "Power",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "title": "Pressure",
+      "type": "gauge"
     },
     {
-      "alert": {
-        "conditions": [
-          {
-            "evaluator": {
-              "params": [
-                80
-              ],
-              "type": "gt"
-            },
-            "operator": {
-              "type": "and"
-            },
-            "query": {
-              "params": [
-                "A",
-                "5m",
-                "now"
-              ]
-            },
-            "reducer": {
-              "params": [],
-              "type": "last"
-            },
-            "type": "query"
-          }
-        ],
-        "executionErrorState": "alerting",
-        "frequency": "1s",
-        "handler": 1,
-        "name": "Live Modbus Engine data",
-        "noDataState": "no_data",
-        "notifications": []
-      },
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": "InfluxDB",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 6,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
         "current": false,
         "max": false,
@@ -303,7 +231,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.1.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -318,6 +250,7 @@
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -3m)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Temperature\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n  |> drop(columns: [\"_field\", \"_measurement\", \"event_id\", \"deviceName\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -334,22 +267,23 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "TM0001"
+              "value": "Temperature"
             }
           ]
         },
         {
-          "alias": "Power",
+          "alias": "Pressure",
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -3m)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Pressure\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n  |> drop(columns: [\"_field\", \"_measurement\", \"event_id\", \"deviceName\"])",
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
@@ -366,13 +300,13 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PW0001"
+              "value": "Pressure"
             }
           ]
         },
@@ -382,6 +316,7 @@
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -3m)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Level\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n  |> drop(columns: [\"_field\", \"_measurement\", \"event_id\", \"deviceName\"])",
           "refId": "C",
           "resultFormat": "time_series",
           "select": [
@@ -398,7 +333,7 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
@@ -409,18 +344,11 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 80
-        }
-      ],
+      "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Live Temperature and Power",
+      "title": "Live Tank Info",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -436,6 +364,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:57",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -444,6 +373,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:58",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -478,13 +408,17 @@
       },
       "styles": [
         {
+          "$$hashKey": "object:554",
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "date"
         },
         {
+          "$$hashKey": "object:555",
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -504,6 +438,7 @@
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Temperature\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n  |> drop(columns: [\"_field\", \"_measurement\", \"event_id\", \"deviceName\"])\n",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -520,39 +455,60 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "TM0001"
+              "value": "Temperature"
             }
           ]
         }
       ],
       "title": "Temperature Table",
-      "transform": "timeseries_to_columns",
-      "type": "table"
+      "transform": "timeseries_to_rows",
+      "type": "table-old"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "celsius",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -564,44 +520,30 @@
       "id": 17,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Temperature\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -622,49 +564,60 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "TM0001"
+              "value": "Temperature"
             }
           ]
         }
       ],
-      "thresholds": "60,80",
       "timeFrom": "30s",
       "title": "Min (last 30 secs)",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "kwatt",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pressurebar"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -676,44 +629,30 @@
       "id": 19,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Pressure\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -734,49 +673,60 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PW0001"
+              "value": "Pressure"
             }
           ]
         }
       ],
-      "thresholds": "60,80",
       "timeFrom": "30s",
       "title": "Mean (last 30 secs)",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "celsius",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -788,44 +738,30 @@
       "id": 18,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Temperature\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -846,49 +782,60 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "TM0001"
+              "value": "Temperature"
             }
           ]
         }
       ],
-      "thresholds": "60,80",
       "timeFrom": "30s",
       "title": "Max (last 30 secs)",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "kwatt",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 60
+              },
+              {
+                "color": "#d44a3a",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "pressurebar"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -900,44 +847,30 @@
       "id": 20,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "range"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Pressure\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -958,33 +891,28 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine Modbus"
+              "value": "Chemical Tank"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PW0001"
+              "value": "Pressure"
             }
           ]
         }
       ],
-      "thresholds": "60,80",
       "timeFrom": "30s",
-      "title": "Mode (last 30 secs)",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "title": "Range (last 30 secs)",
+      "type": "stat"
     },
     {
       "collapsed": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -993,30 +921,53 @@
       },
       "id": 13,
       "panels": [],
-      "title": "OPC-UA Engine Data",
+      "title": "OPC-UA Valve Data",
       "type": "row"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#d44a3a",
-        "rgba(237, 129, 40, 0.89)",
-        "#299c46"
-      ],
       "datasource": "InfluxDB",
-      "decimals": null,
-      "format": "pressurebar",
-      "gauge": {
-        "maxValue": 6,
-        "minValue": -6,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "OFF"
+                },
+                "1": {
+                  "text": "ON"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#d44a3a",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 0
+              },
+              {
+                "color": "#299c46",
+                "value": 2
+              }
+            ]
+          },
+          "unit": "pressurebar"
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 5,
+        "h": 8,
         "w": 6,
         "x": 0,
         "y": 12
@@ -1024,44 +975,32 @@
       "id": 14,
       "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 70
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.1.2",
       "targets": [
         {
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -3s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Setting\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1078,24 +1017,19 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine OPC UA"
+              "value": "Outlet Valve"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PR0001"
+              "value": "Setting"
             }
           ]
         }
       ],
-      "thresholds": "0,2,6",
-      "title": "Pressure",
-      "transparent": false,
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [],
-      "valueName": "current"
+      "title": "Setting",
+      "type": "stat"
     },
     {
       "aliasColors": {},
@@ -1104,19 +1038,21 @@
       "dashes": false,
       "datasource": "InfluxDB",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 6,
         "y": 12
       },
+      "hiddenSeries": false,
       "id": 15,
       "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -1124,7 +1060,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "8.1.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1134,11 +1074,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "Pressure",
+          "alias": "Engine OPC UA",
           "groupBy": [],
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -3m)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Setting\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1155,21 +1096,22 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine OPC UA"
+              "value": "Outlet Valve"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PR0001"
+              "value": "Setting"
             }
           ]
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Live Pressure Data",
+      "title": "Live Valve Data",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1185,6 +1127,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:872",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1193,6 +1136,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:873",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1227,13 +1171,17 @@
       },
       "styles": [
         {
+          "$$hashKey": "object:913",
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "date"
         },
         {
+          "$$hashKey": "object:914",
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1253,6 +1201,7 @@
           "measurement": "readings",
           "orderByTime": "ASC",
           "policy": "default",
+          "query": "from(bucket: \"my-bucket\")\n  |> range(start: -30s)\n  |> filter(fn: (r) => r[\"resourceName\"] == \"Setting\")\n  |> group(columns: [\"resourceName\"])\n  |> sort(columns: [\"_time\"])\n  |> drop(columns: [\"_field\", \"_measurement\", \"event_id\", \"deviceName\"])\n",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1269,142 +1218,24 @@
             {
               "key": "device",
               "operator": "=",
-              "value": "Engine OPC UA"
+              "value": "Outlet Valve"
             },
             {
               "condition": "AND",
               "key": "resource_name",
               "operator": "=",
-              "value": "PR0001"
+              "value": "Setting"
             }
           ]
         }
       ],
-      "title": "Pressure Table",
-      "transform": "timeseries_to_columns",
-      "type": "table"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "InfluxDB",
-      "decimals": 2,
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 6,
-        "x": 0,
-        "y": 17
-      },
-      "hideTimeOverride": false,
-      "id": 21,
-      "interval": null,
-      "links": [],
-      "mappingType": 2,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "-10",
-          "text": "Low Pressure",
-          "to": "3"
-        },
-        {
-          "from": "3",
-          "text": "OK",
-          "to": "6"
-        },
-        {
-          "from": "6",
-          "text": "High Pressure",
-          "to": "10"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "groupBy": [],
-          "measurement": "readings",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=",
-              "value": "Engine OPC UA"
-            },
-            {
-              "condition": "AND",
-              "key": "resource_name",
-              "operator": "=",
-              "value": "PR0001"
-            }
-          ]
-        }
-      ],
-      "thresholds": "60,80",
-      "timeFrom": null,
-      "title": "Pressure Status",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "title": "Setting Table",
+      "transform": "timeseries_to_rows",
+      "type": "table-old"
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 16,
+  "schemaVersion": 30,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1440,7 +1271,7 @@
     ]
   },
   "timezone": "",
-  "title": "Ship Monitoring Dashboard",
-  "uid": "VvC5eGcMk",
+  "title": "Chemical Tank Dashboard",
+  "uid": "_6OKnhHnk",
   "version": 2
 }

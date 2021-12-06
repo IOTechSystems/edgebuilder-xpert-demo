@@ -9,12 +9,6 @@
 </serial>
 </links>
 <automation name="Temperature" step="1.0" loop="true" init="0.0">
-<generator class="LinearGenerator" duration="60.0">
-<start value="0.0" relative="false"/>
-<end value="100.0" relative="false"/>
-</generator>
-</automation>
-<automation name="Power" step="1.0" loop="true" init="0.0">
 <generator class="SineGenerator" duration="100.0">
 <amplitude value="45.0" />
 <period value="100.0" />
@@ -22,13 +16,30 @@
 <catchup enabled="false" />
 </generator>
 </automation>
-<slave id="1" enabled="true" name="Engine" implementation="modbus">
+<automation name="Pressure" step="1.0" loop="true" init="0.0">
+<generator class="LinearGenerator" duration="60.0">
+<start value="0.0" relative="false"/>
+<end value="100.0" relative="false"/>
+</generator>
+</automation>
+<automation name="Level" step="1.0" loop="true" init="0.0">
+<generator class="SineGenerator" duration="100.0">
+<amplitude value="11.0" />
+<period value="100.0" />
+<offset value="17.0" />
+<catchup enabled="false" />
+</generator>
+</automation>
+<slave id="1" enabled="true" name="Chemical Tank" implementation="modbus">
 <holding_registers>
-<register address="1000" value="0" name="TM0001">
+<register address="1000" value="0" name="Temperature">
 <binding automation="Temperature" class="Binding_SINT16" order="0"/>
 </register>
-<register address="1001" value="0" name="PW0001">
-<binding automation="Power" class="Binding_SINT16" order="0"/>
+<register address="1001" value="0" name="Pressure">
+<binding automation="Pressure" class="Binding_SINT16" order="0"/>
+</register>
+<register address="1002" value="0" name="Level">
+<binding automation="Level" class="Binding_SINT16" order="0"/>
 </register>
 </holding_registers>
 <coils>

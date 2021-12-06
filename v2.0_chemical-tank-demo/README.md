@@ -1,18 +1,24 @@
-# Edge Xpert Large Signals Demo with Edge Builder
+# Edge Xpert Chemical Tank Demo with Edge Builder
 ## Overview
 
-![image](images/overview_large_signals.png)
+This demo performs the following egde tasks:
+* Collecting and ingesting data from two simulated data sources (in this case Modbus and OPC-UA)
+* Delivering the data to an InfluxDB time-series database
+* Visualization of the data via a user-configured Grafana dashboard
+* Edge decision making, control and actuation via Node-RED
+* Streaming data northbound to a Cloud/IT system (in this case represented by HiveMQ)
 
-This demo provides a node config **node-config.json**, an app definition **app-def.json**, an app config **app-config.json**, an app file config **app-config-file.json**, and a corresponding docker compose file **docker-compose.yml** to deploy Edge Xpert services on the remote node(s) by Edge Builder and automatically set up the Edge Xpert configs.
+This demo provides the following Edge Builder configs to deploy and config Edge Xpert services on the remote node(s):
+* a node config: **node-config.json**
+* an app definition: **app-def.json**
+* an app config: **app-config.json**
+* an app file config: **app-config-file.json**
+* a corresponding docker compose: **docker-compose.yml**
 
-The docker-compose file contains various Edge Xpert services, including **device-modbus** and **device-opc-ua** that collect and ingest the simulated data, and the events are sent through internally Redis message bus to EdgeX app services directly, and then the app services publish these events to InfluxDB and AWS IoT Core.
-
-Edge Xpert services on the remote node(s):
-
-![image](images/overview_edgexpert.png)
+The docker-compose file contains various Edge Xpert services, including **device-modbus** and **device-opc-ua** that collect and ingest the simulated data, and the events are sent through internally Redis message bus to EdgeX app services directly, and then the app services publish these events to InfluxDB, HiveMQ and Node-RED.
 
 To set up the device-modbus and device-opc-ua services with simulated devices, this tutorial will build a special container to add device profiles and devices into EdgeX 
-Core-Metadata service for provisioning. The container will also add InfluxDB datasource and a default dashboard to Grafana. This special container--**service-setup**--is part of docker-compose file, and it will be 
+Core-Metadata service for provisioning. The container will also add InfluxDB datasource and a default dashboard to Grafana, and add a Node-RED flow. This special container--**service-setup**--is part of docker-compose file, and it will be 
 automatically started up when being deployed by Edge Builder.    
 
 ## Preparation
@@ -40,11 +46,14 @@ automatically started up when being deployed by Edge Builder.
   e.g. edgebuilder-cli license add -l DemoLicense --file EdgeBuilder_IoTech_Evaluation.lic
   ```
 
-* Start ModbusPal on the node 
-  * Load the simulator config **Modbus.xmpp**
+* Start ModbusPal on the node
+  1. Execute command `sudo java -jar ModbusPal.jar` (Java and librxtx-java required)
+  2. Load the simulator config **ModbusSimulator.xmpp**
+  3. Start all -> Run
   
 * Start Prosys OPC UA Simulation Server on the node
-  * add a new node and duplicate the node with number 99 to generate 100 nodes (address from 1007 to 1106)
+  1. Execute Command `./prosys-opc-ua-simulation-server/UaSimulationServer `
+  2. Verify that the attribute exists: Switch to expert mode -> Address Space -> Objects -> Static Data -> Static Variables -> UInt16 (ns=5, s=UInt16)
   
 
 ## The service-setup container
@@ -52,35 +61,36 @@ This main purpose of this container is to set up the EdgeX configs, including:
 * add device profiles into Core-Metadata
 * add devices into Core-Metadata
 * add datasource and dashboard into Grafana 
+* add flows into Node-RED
 
 Examine the **setup** folder of this sample, there are various files and folders:
 * **Dockerfile** - the Dockerfile used to build service-setup docker image
-* **setup.sh** - the entrypoint script inside the service-setup container to set up the Ship Engine Monitoring configs
+* **setup.sh** - the entrypoint script inside the service-setup container to set up Edge Xpert Chemical Tank Demo
 * **build.sh** - the shell script to build the docker image for service-setup container
-* **devices** - folder containing payload files for adding devices: *Engine Modbus*, and *Engine OPC UA*
-* **profiles** - folder containing payload files for adding device profiles: *Engine Modbus*, and *Engine OPC UA*
-* **dashboards** - folder containing payload files for adding Grafana dashboards (If use Grafana UI, please import this dashboard file - [UI_Device_Dashboard.json](setup/UI_Device_Dashboard.json))
+* **devices** - folder containing payload files for adding devices **(must be a json file starting with "device-", e.g. device-ChemicalTank.json)**: *Chemical-Tank*, and *Outlet-Valve*
+* **profiles** - folder containing payload files for adding device profiles **(must be a yaml file ending with "-profile.yml", e.g. ChemicalTank-profile.yml)**: *Chemical-Tank*, and *Outlet-Valve*
+* **dashboards** - folder containing payload files for adding Grafana dashboards
+* **nodered** - folder containing payload files for adding Node-RED flows
 
 ### The entrypoint script - setup.sh
 In this example, **setup.sh** will issue several REST calls to set up the demo:
 * issue **Core-Metadata GET /api/v2/ping** to check if it is ready
 * issue **Core-Metadata POST /api/v2/deviceprofile/uploadfile** to add the device profiles
 * issue **Core-Metadata POST /api/v2/device** to add the devices
+* issue **Node-RED POST /flows** to add the flows
 * issue **Grafana POST /api/datasources** to add InfluxDB datasource
 * issue **Grafana POST /api/dashboards/db** to add dashboards
 
 ### The docker image of service-setup
-Pull the image **iotechsys/edgexpert-demo-lua:large-signals-demo-x86_64** from DockerHub or use the command below to build the image.
+Pull the image **iotechsys/edgexpert-demo-lua:chemical-tank-demo-x86_64** from DockerHub or use the command below to build the image.
 ```shell
 # ./build.sh <push_or_not> <image tag name> 
 cd path-to-setup
-./build.sh true large-signals-demo
+./build.sh true chemical-tank-demo
 ```
 
 ## Run the Demo
 > **⚠ Must have already logged in Edge Builder and added the license.**
-
-> **⚠ Replace BrokerAddress, clientcert, and clientkey in the app-service/app-aws-modbus.toml and app-servie/app-aws-opc-ua.toml with a valid AWS IOT config**
 
 1. Put the Edge Xpert license file in this sample folder, and copy the folder into the server (machine A)
 2. Add node
@@ -120,9 +130,9 @@ cd path-to-setup
     {
       "AppDefinitionConfig": [
         {
-          "Name": "large-signals-demo",
-          "Description": "A simple large signals demo",
-          "ComposeFile": "/home/server/v2.0_large-signals-demo/docker-compose.yml"
+          "Name": "chemical-tank-demo",
+          "Description": "Chemical Tank Control Demo",
+          "ComposeFile": "/home/server/v2.0_chemical-tank-demo/docker-compose.yml"
         }
       ]
     }
@@ -146,25 +156,25 @@ cd path-to-setup
           "Name": "licnese-data-file",
           "Description": "a file to configure license",
           "FileName": "license.lic",
-          "FileContents": "/home/server/v2.0_large-signals-demo/<license-file>"
+          "FileContents": "/home/server/v2.0_chemical-tank-demo/<edge-xpert-license>"
         },
         {
           "Name": "app-influxdb-toml",
           "Description": "a file to configure app-influxdb",
-          "FileName": "app-influxdb.toml",
-          "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-influxdb.toml"
+          "FileName": "influx.toml",
+          "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/influx.toml"
         },
         {
-          "Name": "app-aws-modbus-toml",
-          "Description": "a file to configure app-aws-modbus",
-          "FileName": "app-aws-modbus.toml",
-          "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-aws-modbus.toml"
+          "Name": "app-hive-mqtt-toml",
+          "Description": "a file to configure app-hive-mqtt",
+          "FileName": "hive-mqtt.toml",
+          "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/hive-mqtt.toml"
         },
         {
-          "Name": "app-aws-opc-ua-toml",
-          "Description": "a file to configure app-aws-opc-ua",
-          "FileName": "app-aws-opc-ua.toml",
-          "FileContents": "/home/server/v2.0_large-signals-demo/app-service/app-aws-opc-ua.toml"
+          "Name": "app-nodered-mqtt-toml",
+          "Description": "a file to configure app-nodered-mqtt",
+          "FileName": "nodered-mqtt.toml",
+          "FileContents": "/home/server/v2.0_chemical-tank-demo/app-service/nodered-mqtt.toml"
         }
       ]
     }
@@ -178,7 +188,7 @@ cd path-to-setup
         {
           "Name": "edgexpert-config",
           "Description": "edgexpert volumes",
-          "AppDefinitionID": "<app-def-id>",
+         "AppDefinitionID": "<app-def-id>",
           "ConfigMappings": [
             {
               "Volume": "license-data",
@@ -187,28 +197,17 @@ cd path-to-setup
               ]
             },
             {
-              "Volume": "app-influxdb-config",
+              "Volume": "asc-config",
               "AppConfigFiles": [
-                "app-influxdb-toml"
-              ]
-            },
-            {
-              "Volume": "app-aws-modbus-config",
-              "AppConfigFiles": [
-                "app-aws-modbus-toml"
-              ]
-            },
-            {
-              "Volume": "app-aws-opc-ua-config",
-              "AppConfigFiles": [
-                "app-aws-opc-ua-toml"
+                "app-influxdb-toml",
+                "app-hive-mqtt-toml",
+                "app-nodered-mqtt-toml"
               ]
             }
           ]
         }
       ]
     }
-   
     ```
     Run the command to add appDefinition:
     ```shell
@@ -230,7 +229,7 @@ cd path-to-setup
     Run the command to create app:
     ```shell
     edgebuilder-cli app create -d <app-def-name> -n <node-name> -c <app-config-name>
-    e.g. edgebuilder-cli app create -d large-signals-demo -n node1 -c edgexpert-config
+    e.g. edgebuilder-cli app create -d chemical-tank-demo -n node1 -c edgexpert-config
     ```
     Run the command to start app:
     ```shell
@@ -241,11 +240,12 @@ cd path-to-setup
     edgebuilder-cli app view --all
     ```
 
-6. Open Browser to AWS IoT and Grafana to see data updates
+6. Open Browser to Grafana, HiveMQ Websockets Client and Node-RED to see the results.
    
     Wait for the service-setup container to finish the setup (~ 1 min).
-    * Grafana: http://192.168.33.11:3000/d/89CG79v9z/device-dashboard-by-api?orgId=1&refresh=5s
-    * AWS IoT Core > Test > subscribe "modbus" and "opc-ua"
+    * Grafana: `http://192.168.33.11:3000/d/_6OKnhHnk/chemicaltankdashboard?orgId=1&refresh=5s`
+    * HiveMQ Websockets Client: `http://www.hivemq.com/demos/websocket-client/`, subscribe topic "Chemical-Tank"
+    * Node-Red: the Outlet Valve is opened (set to 1) on Grafana when any of the Modbus values go above 80 (as per the rule in the Node-RED flows.json)
    
 
 ### Remove app, appConfig, appConfigFile, appDefinition and node
@@ -273,7 +273,7 @@ cd path-to-setup
   
   ```shell
   edgebuilder-cli appDefinition rm -d <app-def-name or app-def-id>
-  e.g. edgebuilder-cli appDefinition rm -d large-signals-demo
+  e.g. edgebuilder-cli appDefinition rm -d chemical-tank-demo
   ```
 * Run the command to remove node:
   ```shell

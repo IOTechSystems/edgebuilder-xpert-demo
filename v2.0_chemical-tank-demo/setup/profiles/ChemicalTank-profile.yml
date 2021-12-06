@@ -1,0 +1,47 @@
+name: Chemical-Tank
+manufacturer: IOTech Systems
+description: Chemical Tank Statistics
+model: "101"
+labels: [Temperature, Pressure, Level]
+deviceResources:
+- description: Temperature of liquid within the tank
+  name: Temperature
+  isHidden: true
+  properties:
+    valueType: Int16
+    readWrite: RW
+    units: Degrees Celsius
+    defaultValue: "1"
+  attributes:
+    primaryTable: HOLDING_REGISTERS
+    startingAddress: 1000
+- description: Pressure within the tank
+  name: Pressure
+  isHidden: true
+  properties:
+    valueType: Int16
+    readWrite: RW
+    units: Bar
+    defaultValue: "1"
+  attributes:
+    primaryTable: HOLDING_REGISTERS
+    startingAddress: 1001
+- description: Level within the tank
+  name: Level
+  isHidden: true
+  properties:
+    valueType: Int16
+    readWrite: RW
+    units: cm
+    defaultValue: "1"
+  attributes:
+    primaryTable: HOLDING_REGISTERS
+    startingAddress: 1002
+deviceCommands:
+- name: GetSensorValues
+  isHidden: false
+  readWrite: R
+  resourceOperations:
+  - deviceResource: Temperature
+  - deviceResource: Pressure
+  - deviceResource: Level

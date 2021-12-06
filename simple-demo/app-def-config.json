@@ -1,9 +1,0 @@
-{
-  "AppDefinitionConfig": [
-    {
-      "Name": "simple-demo",
-      "Description": "A simple demo to deploy virtual device and an app service to export events to HiveMQ mqtt broker",
-      "ComposeFile": "/vagrant/simple-demo/docker-compose.yml"
-    }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "AppDefinitionConfig": [
-    {
-      "Name": "shipMonitoring-demo",
-      "Description": "A simple ship monitoring demo",
-      "ComposeFile": "/home/master/shipMonitoring-demo/docker-compose.yml"
-    }
-  ]
-}
