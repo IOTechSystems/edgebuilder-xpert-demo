@@ -5,7 +5,7 @@
 
 This demo provides a node config **node-config.json**, an app definition **app-def.json**, an app config **app-config.json**, an app file config **app-config-file.json**, and a corresponding docker compose file **docker-compose.yml** to deploy Edge Xpert services on the remote node(s) by Edge Builder and automatically set up the Edge Xpert configs.
 
-The docker-compose file contains various Edge Xpert services, including **device-modbus** and **device-opc-ua** that collect and ingest the simulated data, and the events are sent through internally Redis message bus to EdgeX app services directly, and then the app services publishe these events to InfluxDB and AWS IoT Core.
+The docker-compose file contains various Edge Xpert services, including **device-modbus** and **device-opc-ua** that collect and ingest the simulated data, and the events are sent through internally Redis message bus to EdgeX app services directly, and then the app services publish these events to InfluxDB and AWS IoT Core.
 
 Edge Xpert services on the remote node(s):
 
