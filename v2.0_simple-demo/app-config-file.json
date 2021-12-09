@@ -1,0 +1,10 @@
+{
+  "AppConfigFileConfig": [
+    {
+      "Name": "license-data-file",
+      "Description": "a file to configure license",
+      "FileName": "license.lic",
+      "FileContents": "/vagrant/v2.0_simple-demo/<edge-xpert-license>"
+    }
+  ]
+}
