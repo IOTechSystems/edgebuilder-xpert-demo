@@ -1,0 +1,60 @@
+name: "Simulated-Temperature-Device"
+manufacturer: "IOTech"
+model: "Device-Virtual-Float"
+labels:
+- "nova"
+description: "Simulated Temperature Device for NOVA"
+
+deviceResources:
+  -
+    name: "EnableRandomization_AisleTemp"
+    isHidden: true
+    description: "used to decide whether to re-generate a random value"
+    properties:
+      valueType: "Bool"
+      readWrite: "W"
+      defaultValue: "false"
+  -
+    name: "AisleTemp"
+    isHidden: false
+    description: "aisle temperature in float32 value"
+    properties:
+      valueType: "Float32"
+      readWrite: "RW"
+      minimum: "1.50e1"
+      maximum: "3.00e1"
+      defaultValue: "2.20e1"
+  -
+    name: "EnableRandomization_FridgeTemp"
+    isHidden: true
+    description: "used to decide whether to re-generate a random value"
+    properties:
+      valueType: "Bool"
+      readWrite: "W"
+      defaultValue: "false"
+  -
+    name: "FridgeTemp"
+    isHidden: false
+    description: "refrigerator temperature in float32 value"
+    properties:
+      valueType: "Float32"
+      readWrite: "RW"
+      minimum: "2.0e0"
+      maximum: "1.20e1"
+      defaultValue: "5.0e0"
+
+deviceCommands:
+  -
+    name: "WriteAisleTemp"
+    readWrite: "W"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "AisleTemp" }
+      - { deviceResource: "EnableRandomization_AisleTemp", defaultValue: "false" }
+  -
+    name: "WriteFridgeTemp"
+    readWrite: "W"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "FridgeTemp" }
+      - { deviceResource: "EnableRandomization_FridgeTemp", defaultValue: "false" }

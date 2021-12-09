@@ -1,0 +1,35 @@
+name: "Simulated-LoadCell-Device"
+manufacturer: "IOTech"
+model: "Device-Virtual-Float"
+labels:
+- "nova"
+description: "Simulated LoadCell Device for NOVA"
+
+deviceResources:
+  -
+    name: "EnableRandomization_ShelfWeight"
+    isHidden: true
+    description: "used to decide whether to re-generate a random value"
+    properties:
+      valueType: "Bool"
+      readWrite: "W"
+      defaultValue: "false"
+  -
+    name: "ShelfWeight"
+    isHidden: false
+    description: "shelf weight in float32 value"
+    properties:
+      valueType: "Float32"
+      readWrite: "RW"
+      minimum: "0e0"
+      maximum: "1.20055e3"
+      defaultValue: "1.20055e3"
+
+deviceCommands:
+  -
+    name: "WriteShelfWeight"
+    readWrite: "W"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "ShelfWeight" }
+      - { deviceResource: "EnableRandomization_ShelfWeight", defaultValue: "false" }

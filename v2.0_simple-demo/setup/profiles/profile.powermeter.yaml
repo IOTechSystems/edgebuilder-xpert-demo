@@ -1,0 +1,35 @@
+name: "Simulated-Powermeter-Device"
+manufacturer: "IOTech"
+model: "Device-Virtual-UnsignedInt"
+labels:
+  - "nova"
+description: "Simulated Powermeter Device for NOVA"
+
+deviceResources:
+  -
+    name: "EnableRandomization_FridgePower"
+    isHidden: true
+    description: "used to decide whether to re-generate a random value"
+    properties:
+      valueType: "Bool"
+      readWrite: "W"
+      defaultValue: "false"
+  -
+    name: "FridgePower"
+    isHidden: false
+    description: "fridge power consumption in unsigned integer value"
+    properties:
+      valueType: "Uint16"
+      readWrite: "RW"
+      minimum: "50"
+      maximum: "500"
+      defaultValue: "200"
+
+deviceCommands:
+  -
+    name: "WriteFridgePower"
+    readWrite: "W"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "FridgePower" }
+      - { deviceResource: "EnableRandomization_FridgePower", defaultValue: "false" }

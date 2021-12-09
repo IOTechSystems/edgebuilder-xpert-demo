@@ -1,0 +1,17 @@
+{
+  "AppConfig": [
+    {
+      "Name": "edgexpert-config",
+      "Description": "edgexpert volumes",
+      "AppDefinitionID": "<app-def-id>",
+      "ConfigMappings": [
+        {
+          "Volume": "license-data",
+          "AppConfigFiles": [
+            "license-data-file"
+          ]
+        }
+      ]
+    }
+  ]
+}
