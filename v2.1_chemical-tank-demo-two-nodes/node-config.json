@@ -1,0 +1,20 @@
+{
+  "NodeConfig": [
+    {
+      "name": "node1",
+      "description": "virtual node 1",
+      "nodeaddress": "192.168.56.11",
+      "username" : "vagrant",
+      "password" : "vagrant",
+      "serveraddress": "192.168.56.10"
+    },
+    {
+      "name": "node2",
+      "description": "virtual node 2",
+      "nodeaddress": "192.168.56.12",
+      "username" : "vagrant",
+      "password" : "vagrant",
+      "serveraddress": "192.168.56.10"
+    }
+  ]
+}

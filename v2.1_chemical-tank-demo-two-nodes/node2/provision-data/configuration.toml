@@ -1,0 +1,41 @@
+[Writable]
+LogLevel = "INFO"
+
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+Port = 59866
+ServerBindAddr = "" # Leave blank so default to Host value unless different value is needed.
+StartupMsg = "This is the EdgeX Provision Microservice"
+MaxResultCount = 50000
+MaxRequestSize = 0 # Not curently used. Defines the maximum size of http request body in bytes
+RequestTimeout = "5s"
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+
+[Clients]
+  [Clients.core-metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59881
+  [Clients.support-scheduler]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59861
+  [Clients.support-notifications]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59860
+
+[Provisions]
+  [Provisions.Rest]
+    [Provisions.Rest.POST.1_GRAFANA_DataSource]
+    Endpoint = "http://admin:admin@grafana:3000/api/datasources"
+    PayloadFolderPath = "/provision-data/grafana/datasources"
+    [Provisions.Rest.POST.2_GRAFANA_Dashboard]
+    Endpoint = "http://admin:admin@grafana:3000/api/dashboards/db"
+    PayloadFolderPath = "/provision-data/grafana/dashboards"
+

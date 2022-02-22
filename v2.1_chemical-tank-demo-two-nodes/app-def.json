@@ -1,0 +1,16 @@
+{
+  "AppDefinitionConfig": [
+    {
+      "Name": "chemical-tank-demo-node1",
+      "Description": "Chemical Tank Control Demo Deployment for Node1",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/node1/docker-compose.yml",
+	  "Type": "docker-compose"
+    },
+    {
+      "Name": "chemical-tank-demo-node2",
+      "Description": "Chemical Tank Control Demo Deployment for Node2",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/node2/docker-compose.yml",
+	  "Type": "docker-compose"
+    }
+  ]
+}

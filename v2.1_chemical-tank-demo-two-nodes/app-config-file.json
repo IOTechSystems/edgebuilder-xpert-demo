@@ -1,0 +1,28 @@
+{
+  "AppConfigFileConfig": [
+    {
+      "Name": "licnese-data-file",
+      "Description": "a file to configure license",
+      "FileName": "license.lic",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/EdgeXpert_EXP_Evaluation.lic"
+    },
+	{
+      "Name": "node1-asc-config",
+      "Description": "app service config files",
+      "FileName": "asc-config.tar",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/node1/asc-config.tar"
+    },
+    {
+      "Name": "node1-provision-data",
+      "Description": "files to provision device profiles, devices, and nodered flow on node1",
+      "FileName": "node1-provision-data.tar",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/node1/node1-provision-data.tar"
+    },
+    {
+      "Name": "node2-provision-data",
+      "Description": "files to provision grafana datasources and dashboards on node2",
+      "FileName": "node2-provision-data.tar",
+      "FilePath": "/vagrant/v2.1_chemical-tank-demo-two-nodes/node2/node2-provision-data.tar"
+    }
+  ]
+}

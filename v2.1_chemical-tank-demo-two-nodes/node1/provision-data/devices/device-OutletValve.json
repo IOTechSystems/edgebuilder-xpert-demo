@@ -1,0 +1,25 @@
+[
+  {
+    "apiVersion":"v2",
+    "device":{
+      "name":"Outlet-Valve",
+      "adminState":"UNLOCKED",
+      "operatingState":"UP",
+      "protocols":{
+        "OPC-UA":{
+          "Address":"172.17.0.1:53530/OPCUA/SimulationServer"
+        }
+      },
+      "serviceName":"device-opc-ua",
+      "protocolName":"opc-ua",
+      "profileName":"Outlet-Valve",
+      "autoEvents":[
+        {
+          "interval":"1s",
+          "onChange":false,
+          "sourceName":"Setting"
+        }
+      ]
+    }
+  }
+]

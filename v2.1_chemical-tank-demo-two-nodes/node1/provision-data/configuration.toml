@@ -1,0 +1,42 @@
+[Writable]
+LogLevel = "INFO"
+
+[Service]
+HealthCheckInterval = "10s"
+Host = "localhost"
+Port = 59866
+ServerBindAddr = "" # Leave blank so default to Host value unless different value is needed.
+StartupMsg = "This is the EdgeX Provision Microservice"
+MaxResultCount = 50000
+MaxRequestSize = 0 # Not curently used. Defines the maximum size of http request body in bytes
+RequestTimeout = "5s"
+
+[Registry]
+Host = "localhost"
+Port = 8500
+Type = "consul"
+
+[Clients]
+  [Clients.core-metadata]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59881
+  [Clients.support-scheduler]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59861
+  [Clients.support-notifications]
+  Protocol = "http"
+  Host = "localhost"
+  Port = 59860
+
+[Provisions]
+  [Provisions.Clients.ADD]
+    [Provisions.Clients.ADD.Device]
+    PayloadFolderPath = "/provision-data/devices"
+    [Provisions.Clients.ADD.DeviceProfile]
+    PayloadFolderPath = "/provision-data/profiles"
+  [Provisions.Rest]
+    [Provisions.Rest.POST.1_NodeRED_Flow]
+    Endpoint = "http://nodered:1880/flows"
+    PayloadFolderPath = "/provision-data/nodered"

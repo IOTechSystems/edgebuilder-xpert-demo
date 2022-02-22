@@ -1,0 +1,1 @@
+{"name":"InfluxDB","type":"influxdb","url":"http://influxdb:8086","access":"proxy","basicAuth":false,"jsonData":{"organization":"my-org","defaultBucket":"my-bucket","version":"Flux"},"secureJsonData":{"token":"custom-token"}}

@@ -1,0 +1,386 @@
+# IOTech Edge Xpert version: 2.0.3
+version: '3.7'
+
+networks:
+  edgex-network:
+    driver: bridge
+
+volumes:
+  db-data:
+  # EdgeXpert
+  asc-config:
+  nodered-data:
+  mosquitto-log:
+  mosquitto-data:
+  license-data:
+  provision-data:
+  # device service
+  device-modbus-data:
+  device-opc-ua-data:
+
+# all common shared environment variables defined here:
+x-common-env-variables: &common-variables
+  EDGEX_SECURITY_SECRET_STORE: "false"
+  CLIENTS_CORE_COMMAND_HOST: edgex-core-command
+  CLIENTS_CORE_DATA_HOST: edgex-core-data
+  CLIENTS_CORE_METADATA_HOST: edgex-core-metadata
+  DATABASES_PRIMARY_HOST: edgex-redis
+  MESSAGEQUEUE_HOST: mqtt-broker
+  # license
+  EDGEXPERT_LICENSE_PATH: /edgexpert/licenses/
+
+services:
+
+  #################################################################
+  # Database Services
+  #################################################################
+
+  redis:
+    image: redis:6.2.6-alpine
+    container_name: redis
+    hostname: edgex-redis
+    networks:
+      - edgex-network
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: root:root
+    volumes:
+      - db-data:/data:z
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Core Services
+  #################################################################
+
+  core-metadata:
+    image: iotechsys/edgexpert-core-metadata:2.1
+    container_name: core-metadata
+    hostname: edgex-core-metadata
+    ports:
+      - "59881:59881"
+    networks:
+      - edgex-network
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: core-metadata
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  core-data:
+    image: iotechsys/edgexpert-core-data:2.1
+    container_name: core-data
+    hostname: edgex-core-data
+    ports:
+      - "5563:5563"
+      - "59880:59880"
+    networks:
+      - edgex-network
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: core-data
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  core-command:
+    image: iotechsys/edgexpert-core-command:2.1
+    container_name: core-command
+    hostname: edgex-core-command
+    ports:
+      - "59882:59882"
+    networks:
+      - edgex-network
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: core-command
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Application Services
+  #################################################################
+
+  app-influxdb:
+    image: iotechsys/edgexpert-app-configurable:2.1
+    container_name: app-influxdb
+    hostname: app-influxdb
+    networks:
+      - edgex-network
+    command: "--confdir=/res --profile=app-service --file=influx.toml"
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: app-influxdb
+      DATABASE_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
+    volumes:
+      - asc-config:/res/app-service
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  app-hive-mqtt:
+    image: iotechsys/edgexpert-app-configurable:2.1
+    container_name: app-hive-mqtt
+    hostname: app-hive-mqtt
+    networks:
+      - edgex-network
+    command: "--confdir=/res --profile=app-service --file=hive-mqtt.toml"
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: app-hive-mqtt
+      DATABASE_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
+    volumes:
+      - asc-config:/res/app-service
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  app-nodered-mqtt:
+    image: iotechsys/edgexpert-app-configurable:2.1
+    container_name: app-nodered-mqtt
+    hostname: app-nodered-mqtt
+    networks:
+      - edgex-network
+    command: "--confdir=/res --profile=app-service --file=nodered-mqtt.toml"
+    restart: always
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: app-nodered-mqtt
+      DATABASE_HOST: edgex-redis
+      TRIGGER_EDGEXMESSAGEBUS_TYPE: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_SUBSCRIBEHOST_PORT: 1883
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PROTOCOL: mqtt
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_HOST: mqtt-broker
+      TRIGGER_EDGEXMESSAGEBUS_PUBLISHHOST_PORT: 1883
+    volumes:
+      - asc-config:/res/app-service
+      - license-data:/edgexpert/licenses/:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Device Services
+  #################################################################
+
+  device-opc-ua:
+    image: iotechsys/edgexpert-device-opc-ua:2.1
+    container_name: device-opc-ua
+    hostname: device-opc-ua
+    networks:
+      - edgex-network
+    ports:
+      - "59953:59953"
+    restart: always
+    read_only: true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: device-opc-ua
+      LDSName:
+      DiscoveryCertificate:
+      DiscoveryKey:
+      DiscoveryUsername:
+      DiscoveryPassword:
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+      - device-opc-ua-data:/opt/iotech/xrt/config
+      # - ${CLIENT_KEYS_PATH}:/opt/iotech/xrt/config/keys
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  device-modbus:
+    image: iotechsys/edgexpert-device-modbus:2.1
+    container_name: device-modbus
+    hostname: device-modbus
+    networks:
+      - edgex-network
+    ports:
+      - "59901:59901"
+    restart: always
+    read_only: true
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+      SERVICE_HOST: device-modbus
+    volumes:
+      - license-data:/edgexpert/licenses/:ro
+      - device-modbus-data:/opt/iotech/xrt/config
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Tools
+  #################################################################
+
+  mqtt-broker:
+    command: "/usr/sbin/mosquitto -c /mosquitto-no-auth.conf"
+    image: eclipse-mosquitto:2.0
+    container_name: mqtt-broker
+    hostname: mqtt-broker
+    networks:
+      - edgex-network
+    ports:
+      - "1883:1883"
+    restart: always
+    read_only: true
+    user: 2002:2001
+    volumes:
+      - mosquitto-log:/mosquitto/log
+      - mosquitto-data:/mosquitto/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  nodered:
+    image: nodered/node-red:1.3.7
+    container_name: nodered
+    hostname: edgex-nodered
+    networks:
+      - edgex-network
+    ports:
+      - "1880:1880"
+    restart: always
+    volumes:
+      - type: volume
+        source: nodered-data
+        target: /data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Supporting Services
+  #################################################################
+
+  support-provision:
+    image: iotechsys/edgexpert-support-provision:2.1
+    container_name: support-provision
+    hostname: support-provision
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      edgex-network:
+        aliases:
+          - support-provision
+    user: 2002:2001
+    environment:
+      <<: *common-variables
+    volumes:
+      - provision-data:/provision-data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+    depends_on:
+      - core-metadata
+      - nodered
+      
+  tar-inject-test:
+    container_name: tar-inject-test
+    hostname: tar-inject-test
+    image: alpine:3.12
+    logging:
+      driver: json-file
+      options:
+        max-file: '5'
+        max-size: 10mb
+    networks:
+      edgex-network:
+        aliases:
+          - tar-inject-test
+    ports:
+      - published: 59877
+        target: 59877
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    command: tail -f /dev/null
+    volumes:
+      - provision-data:/provision-data
+      - asc-config:/res/app-service
+      - license-data:/edgexpert/licenses/:ro

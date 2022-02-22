@@ -1,0 +1,92 @@
+# IOTech Edge Xpert version: 2.0.3
+version: '3.7'
+
+networks:
+  edgex-network:
+    driver: bridge
+
+volumes:
+  grafana-data:
+  influx-data:
+  influx-config:
+  provision-data:
+
+services:
+
+  #################################################################
+  # Tools
+  #################################################################
+
+  influxdb:
+    image: influxdb:2.0.9
+    container_name: influxdb
+    hostname: influxdb
+    networks:
+      - edgex-network
+    ports:
+      - "8086:8086"
+    restart: always
+    user: influxdb:influxdb
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: admin-password
+      DOCKER_INFLUXDB_INIT_ORG: my-org
+      DOCKER_INFLUXDB_INIT_BUCKET: my-bucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: custom-token
+    volumes:
+      - influx-data:/var/lib/influxdb2
+      - influx-config:/etc/influxdb2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  grafana:
+    image: grafana/grafana:8.1.8
+    container_name: grafana
+    hostname: edgex-grafana
+    networks:
+      - edgex-network
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - type: volume
+        source: grafana-data
+        target: /var/lib/grafana
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+
+  #################################################################
+  # Supporting Services
+  #################################################################
+
+  support-provision:
+    image: iotechsys/edgexpert-support-provision:2.1
+    container_name: support-provision
+    hostname: support-provision
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      edgex-network:
+        aliases:
+          - support-provision
+    user: 2002:2001
+    environment:
+      CLIENTS_CORE_METADATA_HOST: 192.168.56.11
+    volumes:
+      - provision-data:/provision-data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "5"
+    depends_on:
+      - influxdb
+      - grafana

@@ -1,0 +1,42 @@
+{
+  "AppConfig": [
+    {
+      "Name": "node1-config",
+      "Description": "config to inject license file, app service configuration, and provision data",
+      "AppDefinitionID": "f2f76bf0-70da-4f3b-a348-fff205ce1b0f",
+      "ConfigMappings": [
+        {
+          "Destination": "license-data",
+          "AppConfigFiles": [
+            "licnese-data-file"
+          ]
+        },
+        {
+          "Destination": "asc-config",
+          "AppConfigFiles": [
+            "node1-asc-config"
+          ]
+        },
+        {
+          "Destination": "provision-data",
+          "AppConfigFiles": [
+            "node1-provision-data"
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "node2-config",
+      "Description": "config to add datasources and dashboards into the grafana",
+      "AppDefinitionID": "8458a759-c9da-48a8-8750-562e9d94b699",
+      "ConfigMappings": [
+        {
+          "Destination": "provision-data",
+          "AppConfigFiles": [
+            "node2-provision-data"
+          ]
+        }
+      ]
+    }
+  ]
+}
